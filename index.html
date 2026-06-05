@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Kettlebell Burn</title>
+<meta name="theme-color" content="#0b0b0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KB Burn">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0f'/%3E%3Cpath d='M50 18c-6 12-18 18-18 34a18 18 0 0036 0c0-7-4-12-7-18-2 6-5 8-8 8 3-9-3-18-3-24z' fill='%23ff5a2c'/%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kettlebell%20Burn%22%2C%22short_name%22%3A%22KB%20Burn%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0b0f%22%2C%22theme_color%22%3A%22%230b0b0f%22%2C%22start_url%22%3A%22.%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%2520100%2520100%2527%253E%253Crect%2520width%253D%2527100%2527%2520height%253D%2527100%2527%2520rx%253D%252722%2527%2520fill%253D%2527%25230b0b0f%2527%2F%253E%253Cpath%2520d%253D%2527M50%252018c-6%252012-18%252018-18%252034a18%252018%25200%252000360%25200c0-7-4-12-7-18-2%25206-5%25208-8%25208%25203-9-3-18-3-24z%2527%2520fill%253D%2527%2523ff5a2c%2527%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0f; --surface:#15151c; --surface2:#1d1d27; --line:rgba(255,255,255,.08);
+  --text:#f4f2ef; --dim:#8e8e9a; --dim2:#5c5c66;
+  --ember:#ff5a2c; --ember2:#ff2d3f;
+  --green:#36d39c; --amber:#ffb13d; --red:#ff3b46;
+  --display:'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
+  --body:'Outfit', -apple-system, system-ui, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  font-family:var(--body); background:var(--bg); color:var(--text);
+  overflow:hidden; position:fixed; inset:0;
+  background-image:radial-gradient(120% 80% at 50% -10%, rgba(255,90,44,.10), transparent 55%);
+  -webkit-font-smoothing:antialiased;
+}
+.screen{
+  position:absolute; inset:0; display:none; flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 18px) 20px calc(env(safe-area-inset-bottom) + 18px);
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+.screen.on{display:flex; animation:fade .35s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ---------- SETUP ---------- */
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:4px;}
+.flame{width:34px;height:34px;flex-shrink:0;}
+.brand h1{font-family:var(--display);font-size:34px;letter-spacing:1.5px;line-height:1;font-weight:400;}
+.brand h1 span{color:var(--ember);}
+.tag{color:var(--dim);font-size:13px;margin:2px 0 22px 1px;letter-spacing:.2px;}
+.sec-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim2);margin:0 2px 11px;font-weight:600;}
+
+.level{
+  position:relative; background:var(--surface); border:1.5px solid var(--line);
+  border-radius:18px; padding:16px 17px; margin-bottom:11px; cursor:pointer;
+  transition:border-color .2s, background .2s, transform .1s; overflow:hidden;
+}
+.level:active{transform:scale(.985);}
+.level.sel{background:var(--surface2);}
+.level.sel.l0{border-color:var(--green);}
+.level.sel.l1{border-color:var(--amber);}
+.level.sel.l2{border-color:var(--red);}
+.level .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.level .name{font-family:var(--display);font-size:25px;letter-spacing:.6px;font-weight:400;line-height:1;}
+.dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.l0 .dot{background:var(--green);} .l1 .dot{background:var(--amber);} .l2 .dot{background:var(--red);}
+.level .stats{display:flex;gap:18px;}
+.level .stat .k{font-size:18px;font-weight:600;line-height:1.1;}
+.level .stat .l{font-size:10.5px;color:var(--dim);letter-spacing:.04em;text-transform:uppercase;margin-top:1px;}
+.check{position:absolute;top:15px;right:15px;width:21px;height:21px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:.2s;}
+.level.sel .check{background:var(--text);border-color:var(--text);color:var(--bg);}
+
+.toggles{display:flex;gap:10px;margin:18px 0 6px;}
+.toggle{flex:1;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:13px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;transition:.18s;}
+.toggle.on{border-color:var(--ember);background:var(--surface2);}
+.toggle .box{width:19px;height:19px;border-radius:6px;border:1.5px solid var(--dim2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:.18s;}
+.toggle.on .box{background:var(--ember);border-color:var(--ember);color:#fff;}
+.toggle .lbl{font-size:13.5px;line-height:1.2;}
+.toggle .lbl small{display:block;color:var(--dim);font-size:11px;}
+
+.spacer{flex:1;min-height:14px;}
+.go{
+  width:100%;border:none;border-radius:16px;padding:19px;cursor:pointer;
+  font-family:var(--display);font-size:27px;letter-spacing:1.6px;color:#fff;
+  background:linear-gradient(100deg,var(--ember),var(--ember2));
+  box-shadow:0 8px 30px -8px rgba(255,60,50,.55); transition:transform .1s; font-weight:400;
+}
+.go:active{transform:scale(.98);}
+.preview-ex{display:none;}
+
+/* ---------- WORKOUT ---------- */
+.wbar{display:flex;align-items:center;gap:13px;margin-bottom:6px;}
+.xbtn{width:38px;height:38px;border-radius:11px;background:var(--surface);border:1px solid var(--line);color:var(--dim);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.round-pill{font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.02em;}
+.round-pill b{color:var(--text);font-weight:600;}
+.prog{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--ember2));border-radius:3px;transition:width .4s ease;}
+
+.wmain{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;padding:6px 0;}
+.phase-tag{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;}
+.phase-tag.rest{color:var(--ember);} .phase-tag.work{color:var(--green);} .phase-tag.prep{color:var(--amber);} .phase-tag.warm,.phase-tag.cool{color:var(--dim);}
+
+.exname{font-family:var(--display);font-size:min(13vw,52px);line-height:.98;letter-spacing:.5px;margin:10px 14px 4px;font-weight:400;}
+
+.ring-wrap{position:relative;width:min(64vw,250px);height:min(64vw,250px);margin:8px 0;}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--surface2);stroke-width:9;}
+.ring-fg{fill:none;stroke:url(#g1);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset 1s linear;}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.bigtime{font-family:var(--display);font-size:min(22vw,86px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:1px;font-weight:400;}
+.subtime{font-size:12px;color:var(--dim);letter-spacing:.06em;margin-top:2px;}
+
+.reps-big{font-family:var(--display);font-size:min(30vw,118px);line-height:.9;letter-spacing:1px;color:var(--green);font-weight:400;}
+.reps-unit{font-size:14px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:6px;}
+.tip{font-size:13px;color:var(--dim);max-width:300px;line-height:1.5;margin:16px auto 0;}
+.tip i{color:var(--green);font-style:normal;}
+.next{font-size:12.5px;color:var(--dim);margin-top:14px;}
+.next b{color:var(--text);font-weight:600;}
+.upcount{font-family:var(--display);font-size:30px;color:var(--dim);letter-spacing:1px;margin-top:14px;font-variant-numeric:tabular-nums;}
+
+.wfoot{display:flex;gap:11px;margin-top:8px;}
+.ctrl{flex:1;border:1.5px solid var(--line);background:var(--surface);color:var(--text);border-radius:15px;padding:17px;font-family:var(--body);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .1s,background .15s;}
+.ctrl:active{transform:scale(.97);}
+.ctrl.primary{background:linear-gradient(100deg,var(--ember),var(--ember2));border:none;color:#fff;font-family:var(--display);font-size:23px;letter-spacing:1.2px;font-weight:400;flex:2;box-shadow:0 6px 22px -8px rgba(255,60,50,.5);}
+.ctrl.done{background:linear-gradient(100deg,var(--green),#1ea87a);border:none;color:#04130d;font-family:var(--display);font-size:24px;letter-spacing:1.2px;font-weight:400;flex:2;}
+.ctrl.wide{flex:2;}
+.ico{font-size:18px;}
+
+/* ---------- DONE ---------- */
+.done-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;}
+.done-flame{width:78px;height:78px;margin-bottom:8px;animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+.done-title{font-family:var(--display);font-size:46px;letter-spacing:1px;line-height:1;font-weight:400;}
+.done-sub{color:var(--dim);font-size:14px;margin-bottom:26px;}
+.done-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;max-width:340px;margin-bottom:30px;}
+.done-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 14px;}
+.done-card .v{font-family:var(--display);font-size:38px;line-height:1;letter-spacing:.5px;color:var(--ember);font-weight:400;}
+.done-card .l{font-size:11px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;margin-top:6px;}
+.done-actions{display:flex;flex-direction:column;gap:11px;width:100%;max-width:340px;}
+
+.guide-row{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;background:var(--surface);border:1px solid var(--line);border-radius:13px;margin-bottom:8px;cursor:pointer;transition:transform .1s,background .15s;}
+.guide-row:active{transform:scale(.99);background:var(--surface2);}
+.gr-name{font-size:14.5px;font-weight:600;}
+.gr-meta{font-size:12px;color:var(--dim);white-space:nowrap;}
+.gr-meta b{color:var(--ember);font-weight:600;}
+
+.howbtn{margin-top:18px;background:var(--surface);border:1.5px solid var(--line);color:var(--text);border-radius:13px;padding:12px 20px;font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;transition:transform .1s;}
+.howbtn:active{transform:scale(.97);}
+
+.modal{position:fixed;inset:0;z-index:60;display:none;}
+.modal.on{display:block;}
+.modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.62);animation:fade .25s ease;}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--surface);border-radius:24px 24px 0 0;border-top:1px solid var(--line);padding:20px 20px calc(env(safe-area-inset-bottom) + 28px);animation:slideup .3s cubic-bezier(.2,.8,.2,1);}
+@keyframes slideup{from{transform:translateY(100%);}to{transform:none;}}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
+.sheet h3{font-family:var(--display);font-size:30px;letter-spacing:.5px;font-weight:400;line-height:1.02;}
+.sheet-close{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);color:var(--dim);font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.works{display:inline-block;font-size:11.5px;color:var(--ember);border:1px solid rgba(255,90,44,.35);background:rgba(255,90,44,.09);padding:5px 11px;border-radius:20px;margin-bottom:20px;letter-spacing:.02em;}
+.step{display:flex;gap:13px;margin-bottom:15px;}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:16px;color:var(--ember);}
+.step .txt{font-size:14.5px;line-height:1.5;color:var(--text);padding-top:1px;}
+.avoid{display:flex;gap:9px;background:rgba(255,59,70,.08);border:1px solid rgba(255,59,70,.25);border-radius:14px;padding:13px 15px;margin-top:6px;font-size:13.5px;line-height:1.45;color:#ffc2c6;}
+.avoid b{color:var(--red);font-weight:600;}
+.note{font-size:13px;color:var(--dim);margin-top:14px;line-height:1.5;}
+.note b{color:var(--amber);font-weight:600;}
+.hidden{display:none !important;}
+.flash{animation:flashbg .5s ease;}
+@keyframes flashbg{0%{background-color:rgba(255,90,44,.18);}100%{background-color:transparent;}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#ff5a2c"/><stop offset="100%" stop-color="#ff2d3f"/>
+  </linearGradient>
+</defs></svg>
+
+<!-- SETUP -->
+<div class="screen on" id="s-setup">
+  <div class="brand">
+    <svg class="flame" viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>
+    <h1>KETTLEBELL <span>BURN</span></h1>
+  </div>
+  <p class="tag">Circuito quemagrasa guiado · elige tu nivel</p>
+
+  <div class="sec-label">Nivel</div>
+  <div id="levels"></div>
+
+  <div class="sec-label" style="margin-top:18px;">Opciones</div>
+  <div class="toggles">
+    <div class="toggle on" id="tg-warm" onclick="App.toggle('warm')"><div class="box">✓</div><div class="lbl">Calentar<small>5 min</small></div></div>
+    <div class="toggle on" id="tg-cool" onclick="App.toggle('cool')"><div class="box">✓</div><div class="lbl">Enfriar<small>5 min</small></div></div>
+    <div class="toggle on" id="tg-sound" onclick="App.toggle('sound')"><div class="box">✓</div><div class="lbl">Sonido<small>+ vibrar</small></div></div>
+  </div>
+
+  <div class="sec-label" style="margin-top:18px;">Ejercicios · toca para ver cómo se hacen</div>
+  <div id="exGuide"></div>
+
+  <div class="spacer"></div>
+  <button class="go" onclick="App.start()">EMPEZAR ▸</button>
+</div>
+
+<!-- WORKOUT -->
+<div class="screen" id="s-work">
+  <div class="wbar">
+    <button class="xbtn" onclick="App.quit()">✕</button>
+    <span class="round-pill" id="roundPill">Ronda <b>1</b>/4</span>
+    <div class="prog"><i id="progBar"></i></div>
+  </div>
+  <div class="wmain" id="wmain"></div>
+  <div class="wfoot" id="wfoot"></div>
+</div>
+
+<!-- DONE -->
+<div class="screen" id="s-done">
+  <div class="done-wrap">
+    <svg class="done-flame" viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>
+    <div class="done-title">¡COMPLETADO!</div>
+    <div class="done-sub" id="doneSub">Buen trabajo</div>
+    <div class="done-grid">
+      <div class="done-card"><div class="v" id="dTime">0:00</div><div class="l">Tiempo total</div></div>
+      <div class="done-card"><div class="v" id="dRounds">0</div><div class="l">Rondas</div></div>
+      <div class="done-card"><div class="v" id="dEx">0</div><div class="l">Series hechas</div></div>
+      <div class="done-card"><div class="v" id="dKcal">0</div><div class="l">Kcal aprox.</div></div>
+    </div>
+    <div class="done-actions">
+      <button class="ctrl done wide" onclick="App.start()">REPETIR</button>
+      <button class="ctrl wide" onclick="App.home()">Volver al inicio</button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-bg" onclick="App.closeGuide()"></div>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const DATA = {
+  0:{label:"Principiante",color:"green",rounds:3,duration:"~25 min",kcalNum:240,kg:"8–12 kg",
+     ex:[
+      {n:"Kettlebell Swing",reps:"15",rest:45,tip:"Impulsa con las caderas, no con los brazos. Espalda recta.",g:"swing"},
+      {n:"Goblet Squat",reps:"12",rest:45,tip:"Pecho alto y rodillas empujando hacia fuera.",g:"goblet"},
+      {n:"Peso Muerto Rumano",reps:"12",rest:45,tip:"Bisagra de cadera: trasero atrás, espalda neutra.",g:"rdl"},
+      {n:"Remo a una mano",reps:"10 c/lado",rest:45,tip:"Codo cerca del cuerpo. Pausa de 1 seg arriba.",g:"remo"},
+      {n:"Farmer's Carry",reps:"30 seg",rest:60,tip:"Hombros atrás, core apretado todo el recorrido.",g:"farmer"},
+      {n:"Russian Twist",reps:"20",rest:45,tip:"Pies despegados del suelo para más dificultad.",g:"twist"},
+     ]},
+  1:{label:"Intermedio",color:"amber",rounds:4,duration:"~35 min",kcalNum:360,kg:"14–20 kg",
+     ex:[
+      {n:"Kettlebell Swing",reps:"20",rest:30,tip:"La campana llega a la altura del pecho arriba.",g:"swing"},
+      {n:"Clean & Press",reps:"8 c/lado",rest:45,tip:"Usa el impulso de caderas para el clean.",g:"cleanpress"},
+      {n:"Goblet Squat Pausa",reps:"12",rest:30,tip:"2 segundos de pausa en el fondo.",g:"goblet"},
+      {n:"Renegade Row",reps:"8 c/lado",rest:45,tip:"Caderas niveladas, no rotes el torso.",g:"renegade"},
+      {n:"Figure 8",reps:"30 seg",rest:30,tip:"Agáchate en cada paso, no te inclines.",g:"figure8"},
+      {n:"Kettlebell Snatch",reps:"6 c/lado",rest:60,tip:"Deja deslizar la campana por el antebrazo.",g:"snatch"},
+     ]},
+  2:{label:"Avanzado",color:"red",rounds:5,duration:"~45 min",kcalNum:480,kg:"20–28 kg",
+     ex:[
+      {n:"Double Swing",reps:"20",rest:30,tip:"Dos campanas a la vez. Máxima explosividad.",g:"doubleswing"},
+      {n:"Thruster",reps:"10",rest:30,tip:"Squat profundo + press en un movimiento fluido.",g:"thruster"},
+      {n:"Clean & Press",reps:"10 c/lado",rest:30,tip:"Sin pausa entre el clean y el press.",g:"cleanpress"},
+      {n:"Turkish Get-Up",reps:"3 c/lado",rest:60,tip:"Lento y controlado. Ojo siempre en la campana.",g:"getup"},
+      {n:"Kettlebell Snatch",reps:"8 c/lado",rest:30,tip:"Bloqueo total: brazo recto y vertical arriba.",g:"snatch"},
+      {n:"Renegade Row + Flexión",reps:"8 c/lado",rest:45,tip:"Remo + flexión = 1 rep. Caderas quietas.",g:"renegadepush"},
+     ]},
+};
+
+const GUIDES = {
+  swing:{title:"Kettlebell Swing",works:"Glúteos, isquios, espalda baja y core",
+    steps:[
+      "Ponte de pie con los pies un poco más anchos que los hombros. La pesa en el suelo, a un palmo por delante de ti.",
+      "Agáchate con la espalda recta (no curvada) y agarra el asa con las dos manos.",
+      "Echa las caderas hacia atrás y mete la pesa entre las piernas, como dándole impulso hacia atrás.",
+      "Empuja FUERTE con las caderas hacia delante, como un latigazo, para lanzar la pesa al frente.",
+      "La pesa sube sola hasta la altura del pecho gracias a la cadera, NO porque la levantes con los brazos.",
+      "Déjala caer entre las piernas otra vez y encadena el siguiente balanceo. Aprieta los glúteos arriba."],
+    avoid:"No la subas tirando con los brazos ni redondees la espalda. Todo el impulso sale de la cadera."},
+  goblet:{title:"Goblet Squat",works:"Cuádriceps, glúteos y core",
+    steps:[
+      "Sujeta la pesa contra el pecho con las dos manos, agarrándola por los 'cuernos' del asa, codos apuntando al suelo.",
+      "Pies a la anchura de los hombros, puntas ligeramente hacia fuera.",
+      "Baja como si fueras a sentarte en una silla: lleva la cadera atrás y abajo, manteniendo la espalda recta.",
+      "Baja hasta que los muslos queden más o menos paralelos al suelo (o hasta donde llegues con buena postura).",
+      "Empuja con los talones para subir y aprieta los glúteos al estar arriba."],
+    avoid:"No metas las rodillas hacia dentro ni levantes los talones del suelo.",
+    note:"En la versión 'con Pausa', aguanta 2 segundos abajo antes de subir."},
+  rdl:{title:"Peso Muerto Rumano",works:"Isquiotibiales (parte de atrás del muslo), glúteos y lumbar",
+    steps:[
+      "De pie, sujeta la pesa con las dos manos colgando delante de los muslos.",
+      "Flexiona ligeramente las rodillas y déjalas FIJAS ahí (no se doblan más durante el ejercicio).",
+      "Lleva la cadera hacia atrás mientras bajas la pesa rozando las piernas.",
+      "Baja hasta notar el estirón en la parte de atrás del muslo (más o menos a media espinilla).",
+      "Vuelve arriba empujando la cadera hacia delante. La espalda siempre recta."],
+    avoid:"No redondees la espalda ni bajes doblando solo las rodillas: el movimiento es de cadera."},
+  remo:{title:"Remo a una mano",works:"Espalda (dorsal), parte alta y bíceps",
+    steps:[
+      "Apoya una mano y una rodilla sobre un banco, silla o sofá firme. El otro pie en el suelo.",
+      "La espalda plana, casi paralela al suelo. La pesa en la mano libre, con el brazo estirado colgando.",
+      "Tira de la pesa hacia tu cadera, llevando el codo hacia atrás y pegado al cuerpo.",
+      "Aprieta la espalda arriba un segundo y baja despacio, controlando.",
+      "Haz todas las repeticiones de un lado y luego cambia de lado."],
+    avoid:"No gires el torso ni des tirones bruscos con el brazo."},
+  farmer:{title:"Farmer's Carry (paseo del granjero)",works:"Agarre, core, hombros y trapecio",
+    steps:[
+      "Coge la pesa (o una en cada mano si tienes dos) y ponte de pie bien erguido.",
+      "Hombros hacia atrás y abajo, pecho alto, mirada al frente.",
+      "Camina con pasos cortos y firmes durante el tiempo indicado.",
+      "Mantén el abdomen apretado todo el rato; no dejes que el peso te incline hacia un lado."],
+    avoid:"No encojas los hombros hacia las orejas ni saques barriga arqueando la espalda."},
+  twist:{title:"Russian Twist (giro ruso)",works:"Oblicuos y core",
+    steps:[
+      "Siéntate en el suelo con las rodillas dobladas. Talones apoyados (o despegados del suelo para más dificultad).",
+      "Inclina el torso un poco hacia atrás manteniendo la espalda recta. Sujeta la pesa con las dos manos frente al pecho.",
+      "Gira el tronco para llevar la pesa hacia un lado y tócala junto a la cadera.",
+      "Gira al otro lado y toca. Un toque a cada lado cuenta como 2 repeticiones.",
+      "Movimiento controlado: gira desde el tronco, no solo moviendo los brazos."],
+    avoid:"No curves la espalda ni vayas a tirones rápidos sin control."},
+  cleanpress:{title:"Clean & Press",works:"Cuerpo completo: piernas, hombros y espalda",
+    steps:[
+      "CLEAN: pesa en el suelo entre los pies. Agáchate, agárrala y con un impulso de cadera súbela hasta el hombro.",
+      "Recíbela en posición 'rack': la pesa descansa sobre el antebrazo y el hombro, con el codo pegado al cuerpo.",
+      "PRESS: desde ahí, empuja la pesa hacia arriba hasta estirar el brazo del todo por encima de la cabeza.",
+      "Baja la pesa al hombro y luego al suelo de forma controlada.",
+      "Haz las repeticiones de un brazo y luego cambia."],
+    avoid:"No arquees la espalda al empujar arriba; aprieta el abdomen.",
+    note:"Si te lía, practica primero el 'clean' y el 'press' por separado antes de juntarlos."},
+  renegade:{title:"Renegade Row",works:"Core, espalda, hombros y pecho",
+    steps:[
+      "Ponte en posición de plancha con las manos apoyadas sobre dos pesas (o una pesa y la otra mano en el suelo).",
+      "Separa un poco los pies para tener más estabilidad. Cuerpo en línea recta, abdomen apretado.",
+      "Tira de una pesa hacia tu cadera (rema), manteniendo las caderas quietas y niveladas.",
+      "Bájala con control y rema con el otro brazo. Eso es 1 repetición por lado."],
+    avoid:"No dejes que la cadera gire ni se hunda; mantén el cuerpo rígido como una tabla."},
+  figure8:{title:"Figure 8 (ocho)",works:"Core, piernas y coordinación",
+    steps:[
+      "De pie con las piernas separadas y las rodillas algo flexionadas (media sentadilla).",
+      "Pasa la pesa con una mano entre las piernas hacia atrás.",
+      "Por detrás, cógela con la otra mano y sácala por el otro lado, dibujando un '8' alrededor de las piernas.",
+      "Sigue alternando manos, agachándote en cada paso. Espalda recta y mirada al frente."],
+    avoid:"No te limites a inclinarte hacia delante; mantén la posición de media sentadilla."},
+  snatch:{title:"Kettlebell Snatch (arrancada)",works:"Cuerpo completo, potencia y hombros",
+    steps:[
+      "Es un movimiento explosivo: la pesa va del suelo a encima de la cabeza en un solo tirón.",
+      "Empieza como un swing pero con una sola mano: impulso fuerte de cadera.",
+      "Cuando la pesa sube, guía el codo hacia arriba y deja que la pesa 'gire' suavemente alrededor de la muñeca.",
+      "Termina con el brazo estirado del todo arriba, la pesa bloqueada y quieta.",
+      "Baja controlando hacia el swing y encadena. Repeticiones por brazo."],
+    avoid:"Es técnico: domina primero el swing y el clean. No dejes que la pesa golpee la muñeca al subir."},
+  doubleswing:{title:"Double Swing (swing doble)",works:"Glúteos, isquios, espalda y core",
+    steps:[
+      "Es igual que el Kettlebell Swing normal pero con DOS pesas, una en cada mano.",
+      "Separa un poco más los pies para que las pesas pasen entre las piernas.",
+      "Mismo gesto: caderas atrás y empuje explosivo de cadera para lanzarlas hacia delante.",
+      "Suben hasta la altura del pecho por la fuerza de la cadera. Bajan solas y encadenas."],
+    avoid:"Las dos pesas deben moverse a la vez. No las levantes con los brazos."},
+  thruster:{title:"Thruster",works:"Piernas, hombros y cuerpo completo",
+    steps:[
+      "Sujeta la pesa en posición 'rack' (sobre el hombro/antebrazo) o con las dos manos contra el pecho.",
+      "Haz una sentadilla profunda bajando la cadera.",
+      "Al subir de la sentadilla, aprovecha ese impulso para empujar la pesa por encima de la cabeza.",
+      "Es un único movimiento fluido: sentadilla y press salen encadenados sin pausa.",
+      "Baja la pesa al hombro y repite."],
+    avoid:"No te pares entre la sentadilla y el empuje; el impulso de las piernas ayuda al brazo."},
+  getup:{title:"Turkish Get-Up (levantada turca)",works:"Todo el cuerpo, estabilidad de hombro y core",
+    steps:[
+      "Túmbate boca arriba. Sube la pesa con un brazo estirado apuntando al techo (el brazo se mantiene recto todo el rato).",
+      "Dobla la rodilla de ese mismo lado y apoya el pie en el suelo. Mira siempre la pesa.",
+      "Apóyate en el codo del otro brazo, luego en la mano, y levanta la cadera del suelo.",
+      "Pasa la pierna estirada por debajo hasta quedarte arrodillado, y desde ahí ponte de pie.",
+      "Deshaz el camino paso a paso, en orden inverso, hasta volver a tumbarte. Lento y controlado."],
+    avoid:"Es el ejercicio más complejo: empieza sin peso o con algo muy ligero. Nunca pierdas de vista la pesa."},
+  renegadepush:{title:"Renegade Row + Flexión",works:"Pecho, core, espalda y hombros",
+    steps:[
+      "Posición de plancha con las manos apoyadas sobre dos pesas.",
+      "Haz una flexión completa: baja el pecho hacia el suelo y vuelve a subir.",
+      "Arriba, rema con un brazo (tira de la pesa hacia la cadera) y luego con el otro.",
+      "Una flexión + un remo de cada lado = 1 repetición.",
+      "Mantén el abdomen apretado y las caderas quietas durante todo el movimiento."],
+    avoid:"No hundas la cadera ni la gires al remar."},
+};
+const RING_R = 110, CIRC = 2*Math.PI*RING_R;
+
+const App = {
+  level:0, opts:{warm:true,cool:true,sound:true},
+  phases:[], idx:0, remain:0, total:0, timer:null, paused:false,
+  upStart:0, sessionStart:0, seriesDone:0, actx:null, wakeLock:null,
+  warned3:false,
+
+  init(){
+    document.getElementById('levels').innerHTML = [0,1,2].map(i=>{
+      const d=DATA[i];
+      return `<div class="level l${i} ${i===0?'sel':''}" id="lv-${i}" onclick="App.pick(${i})">
+        <div class="check">✓</div>
+        <div class="top"><span class="name">${d.label}</span><span class="dot"></span></div>
+        <div class="stats">
+          <div class="stat"><div class="k">${d.rounds}</div><div class="l">Rondas</div></div>
+          <div class="stat"><div class="k">${d.duration.replace('~','')}</div><div class="l">Duración</div></div>
+          <div class="stat"><div class="k">${d.kg}</div><div class="l">Peso</div></div>
+          <div class="stat"><div class="k">${d.kcalNum}</div><div class="l">Kcal</div></div>
+        </div></div>`;
+    }).join('');
+    this.pick(0);
+  },
+
+  pick(i){
+    this.level=i;
+    [0,1,2].forEach(n=>document.getElementById('lv-'+n).classList.toggle('sel',n===i));
+    document.getElementById('exGuide').innerHTML = DATA[i].ex.map(e=>`
+      <div class="guide-row" onclick="App.showGuide('${e.g}')">
+        <span class="gr-name">${e.n}</span>
+        <span class="gr-meta">${e.reps.replace(' c/lado','/lado')} · <b>ver ›</b></span>
+      </div>`).join('');
+  },
+
+  showGuide(key){
+    const gd=GUIDES[key]; if(!gd) return;
+    document.getElementById('sheet').innerHTML = `
+      <div class="sheet-head">
+        <h3>${gd.title}</h3>
+        <button class="sheet-close" onclick="App.closeGuide()">✕</button>
+      </div>
+      <span class="works">Trabaja: ${gd.works}</span>
+      ${gd.steps.map((s,i)=>`<div class="step"><div class="num">${i+1}</div><div class="txt">${s}</div></div>`).join('')}
+      ${gd.avoid?`<div class="avoid"><div><b>Evita:</b> ${gd.avoid}</div></div>`:''}
+      ${gd.note?`<p class="note"><b>Truco:</b> ${gd.note}</p>`:''}`;
+    document.getElementById('modal').classList.add('on');
+    document.getElementById('sheet').scrollTop=0;
+  },
+  closeGuide(){ document.getElementById('modal').classList.remove('on'); },
+
+  toggle(k){
+    this.opts[k]=!this.opts[k];
+    document.getElementById('tg-'+k).classList.toggle('on',this.opts[k]);
+  },
+
+  buildPhases(){
+    const d=DATA[this.level], p=[];
+    if(this.opts.warm) p.push({t:'warm',dur:300,label:'Calentamiento',hint:'Saltos de tijera · movilidad de cadera · sentadillas sin peso · hombros'});
+    else p.push({t:'prep',dur:10,label:'Prepárate'});
+    for(let r=1;r<=d.rounds;r++){
+      d.ex.forEach((e,i)=>{
+        p.push({t:'work',ex:e,round:r});
+        const last = (r===d.rounds && i===d.ex.length-1);
+        if(!last) p.push({t:'rest',dur:e.rest,round:r,next:(i<d.ex.length-1)?d.ex[i+1].n:d.ex[0].n});
+      });
+    }
+    if(this.opts.cool) p.push({t:'cool',dur:300,label:'Enfriamiento',hint:'Estira cadena posterior · piriforme · pecho · hombros · respira'});
+    return p;
+  },
+
+  start(){
+    this.resumeAudio();
+    this.phases=this.buildPhases();
+    this.idx=0; this.seriesDone=0; this.paused=false;
+    this.sessionStart=Date.now();
+    this.show('work');
+    this.requestWake();
+    this.enter();
+  },
+
+  enter(){
+    clearInterval(this.timer); this.warned3=false;
+    const ph=this.phases[this.idx];
+    if(!ph){ return this.finish(); }
+    const d=DATA[this.level];
+    document.getElementById('roundPill').innerHTML = ph.round ? `Ronda <b>${ph.round}</b>/${d.rounds}` : `&nbsp;`;
+    const doneWork = this.phases.slice(0,this.idx).filter(x=>x.t==='work').length;
+    const totalWork = this.phases.filter(x=>x.t==='work').length;
+    document.getElementById('progBar').style.width = Math.round(doneWork/totalWork*100)+'%';
+
+    if(ph.t==='work') this.renderWork(ph);
+    else this.renderTimed(ph);
+  },
+
+  renderWork(ph){
+    document.getElementById('wmain').innerHTML = `
+      <div class="phase-tag work">Ejercicio</div>
+      <div class="exname">${ph.ex.n}</div>
+      <div class="reps-big">${/\d+\s*seg/.test(ph.ex.reps)?ph.ex.reps.replace(/\s*seg/,''):'×'+ph.ex.reps.replace(/ c\/lado/,'')}</div>
+      <div class="reps-unit">${/seg/.test(ph.ex.reps)?'segundos':(/c\/lado/.test(ph.ex.reps)?'repeticiones por lado':'repeticiones')}</div>
+      <div class="upcount" id="up">0:00</div>
+      <div class="tip"><i>►</i> ${ph.ex.tip}</div>
+      <button class="howbtn" onclick="App.showGuide('${ph.ex.g}')">Ver cómo se hace ›</button>`;
+    document.getElementById('wfoot').innerHTML = `
+      <button class="ctrl" onclick="App.quit()"><span class="ico">✕</span></button>
+      <button class="ctrl done" onclick="App.workDone()">HECHO ✓</button>`;
+    this.upStart=Date.now();
+    this.timer=setInterval(()=>{
+      const s=Math.floor((Date.now()-this.upStart)/1000);
+      const el=document.getElementById('up'); if(el) el.textContent=this.fmt(s);
+    },1000);
+  },
+
+  workDone(){
+    this.seriesDone++;
+    this.beep(660,.12); this.vibe(40);
+    clearInterval(this.timer);
+    this.idx++; this.enter();
+  },
+
+  renderTimed(ph){
+    this.remain = ph.dur; this.total = ph.dur;
+    const cls = ph.t==='rest'?'rest':(ph.t==='prep'?'prep':(ph.t==='warm'?'warm':'cool'));
+    const title = ph.t==='rest'?'Descanso':(ph.t==='prep'?'Prepárate':ph.label);
+    const sub = ph.t==='rest' ? `<div class="next">Siguiente: <b>${ph.next}</b></div>`
+              : ph.hint ? `<div class="tip">${ph.hint}</div>` : '';
+    document.getElementById('wmain').innerHTML = `
+      <div class="phase-tag ${cls}">${title}</div>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 250 250">
+          <circle class="ring-bg" cx="125" cy="125" r="${RING_R}"></circle>
+          <circle class="ring-fg" id="ring" cx="125" cy="125" r="${RING_R}"
+            stroke-dasharray="${CIRC}" stroke-dashoffset="0"></circle>
+        </svg>
+        <div class="ring-center">
+          <div class="bigtime" id="big">${this.fmt(this.remain)}</div>
+          <div class="subtime" id="psub">${ph.t==='rest'?'recupera':'en marcha'}</div>
+        </div>
+      </div>
+      ${sub}`;
+    document.getElementById('wfoot').innerHTML = `
+      <button class="ctrl" id="pauseBtn" onclick="App.pauseToggle()"><span class="ico">❚❚</span> Pausa</button>
+      <button class="ctrl primary" onclick="App.skip()">SALTAR ▸</button>`;
+    this.updateRing();
+    this.startCountdown();
+  },
+
+  startCountdown(){
+    clearInterval(this.timer);
+    this.timer=setInterval(()=>{
+      if(this.paused) return;
+      this.remain--;
+      const big=document.getElementById('big');
+      if(big) big.textContent=this.fmt(Math.max(0,this.remain));
+      this.updateRing();
+      if(this.remain<=3 && this.remain>0){ this.beep(740,.1); this.vibe(30); }
+      if(this.remain<=0){
+        clearInterval(this.timer);
+        this.beep(960,.35,'square'); this.vibe([90,40,90]);
+        document.getElementById('s-work').classList.add('flash');
+        setTimeout(()=>document.getElementById('s-work').classList.remove('flash'),500);
+        this.idx++; this.enter();
+      }
+    },1000);
+  },
+
+  updateRing(){
+    const ring=document.getElementById('ring'); if(!ring) return;
+    const frac = this.total ? this.remain/this.total : 0;
+    ring.style.strokeDashoffset = CIRC*(1-frac);
+  },
+
+  pauseToggle(){
+    this.paused=!this.paused;
+    const b=document.getElementById('pauseBtn');
+    const sub=document.getElementById('psub');
+    if(b) b.innerHTML = this.paused ? '<span class="ico">▶</span> Seguir' : '<span class="ico">❚❚</span> Pausa';
+    if(sub) sub.textContent = this.paused ? 'en pausa' : 'recupera';
+  },
+
+  skip(){ this.beep(520,.1); this.vibe(30); clearInterval(this.timer); this.idx++; this.enter(); },
+
+  finish(){
+    clearInterval(this.timer); this.releaseWake();
+    const secs=Math.floor((Date.now()-this.sessionStart)/1000);
+    const d=DATA[this.level];
+    document.getElementById('dTime').textContent=this.fmt(secs);
+    document.getElementById('dRounds').textContent=d.rounds;
+    document.getElementById('dEx').textContent=this.seriesDone;
+    document.getElementById('dKcal').textContent=Math.round(d.kcalNum*(secs/(d.rounds*d.ex.length*75)));
+    document.getElementById('doneSub').textContent=`${d.label} · completado`;
+    this.beep(880,.18); setTimeout(()=>this.beep(1175,.3),160); this.vibe([120,60,120,60,200]);
+    this.show('done');
+  },
+
+  quit(){ clearInterval(this.timer); this.releaseWake(); this.home(); },
+  home(){ this.paused=false; this.show('setup'); },
+
+  show(name){
+    ['setup','work','done'].forEach(s=>document.getElementById('s-'+s).classList.toggle('on',s===name));
+    document.getElementById('s-'+name).scrollTop=0;
+  },
+
+  fmt(s){ s=Math.max(0,Math.round(s)); const m=Math.floor(s/60),x=s%60; return m+':'+(x<10?'0':'')+x; },
+
+  resumeAudio(){
+    try{ this.actx=this.actx||new (window.AudioContext||window.webkitAudioContext)(); if(this.actx.state==='suspended') this.actx.resume(); }catch(e){}
+  },
+  beep(freq=880,dur=.15,type='sine'){
+    if(!this.opts.sound) return;
+    try{
+      this.actx=this.actx||new (window.AudioContext||window.webkitAudioContext)();
+      const o=this.actx.createOscillator(), g=this.actx.createGain();
+      o.type=type; o.frequency.value=freq; o.connect(g); g.connect(this.actx.destination);
+      const t=this.actx.currentTime;
+      g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.35,t+.015);
+      g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o.start(t); o.stop(t+dur+.02);
+    }catch(e){}
+  },
+  vibe(p){ if(this.opts.sound && navigator.vibrate){ try{navigator.vibrate(p);}catch(e){} } },
+
+  async requestWake(){ try{ if('wakeLock' in navigator) this.wakeLock=await navigator.wakeLock.request('screen'); }catch(e){} },
+  releaseWake(){ try{ this.wakeLock&&this.wakeLock.release(); this.wakeLock=null; }catch(e){} },
+};
+
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && document.getElementById('s-work').classList.contains('on')) App.requestWake(); });
+App.init();
+</script>
+</body>
+</html>
