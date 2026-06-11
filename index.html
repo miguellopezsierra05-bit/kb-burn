@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Kettlebell Burn</title>
+<title>Centro Deportivo</title>
 <meta name="theme-color" content="#0b0b0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="KB Burn">
+<meta name="apple-mobile-web-app-title" content="Centro Deportivo">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230b0b0f'/%3E%3Cpath d='M50 18c-6 12-18 18-18 34a18 18 0 0036 0c0-7-4-12-7-18-2 6-5 8-8 8 3-9-3-18-3-24z' fill='%23ff5a2c'/%3E%3C/svg%3E">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kettlebell%20Burn%22%2C%22short_name%22%3A%22KB%20Burn%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230b0b0f%22%2C%22theme_color%22%3A%22%230b0b0f%22%2C%22start_url%22%3A%22.%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%2520100%2520100%2527%253E%253Crect%2520width%253D%2527100%2527%2520height%253D%2527100%2527%2520rx%253D%252722%2527%2520fill%253D%2527%25230b0b0f%2527%2F%253E%253Cpath%2520d%253D%2527M50%252018c-6%252012-18%252018-18%252034a18%252018%25200%252000360%25200c0-7-4-12-7-18-2%25206-5%25208-8%25208%25203-9-3-18-3-24z%2527%2520fill%253D%2527%2523ff5a2c%2527%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +20,7 @@
   --text:#f4f2ef; --dim:#8e8e9a; --dim2:#5c5c66;
   --ember:#ff5a2c; --ember2:#ff2d3f;
   --green:#36d39c; --amber:#ffb13d; --red:#ff3b46;
+  --padel:#3a9bff; --pesas:#9fb0c4; --box:#ff5a4d;
   --display:'Bebas Neue', 'Oswald', 'Arial Narrow', sans-serif;
   --body:'Outfit', -apple-system, system-ui, sans-serif;
 }
@@ -172,6 +173,79 @@ body{
 .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:none;background:none;color:var(--dim);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
 .eye:active{color:var(--text);}
 .eye svg{width:21px;height:21px;}
+
+/* ---------- HUB ---------- */
+.hub-head{display:flex;align-items:center;gap:11px;margin-bottom:4px;}
+.hub-head h1{font-family:var(--display);font-size:30px;letter-spacing:1.2px;line-height:1;flex:0 0 auto;}
+.hub-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:15px 16px;margin-bottom:11px;cursor:pointer;transition:transform .1s,background .2s;}
+.hub-card:active{transform:scale(.985);background:var(--surface2);}
+.hub-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hub-ic svg{width:27px;height:27px;}
+.hub-tx{flex:1;min-width:0;}
+.hub-tx .t{font-family:var(--display);font-size:23px;letter-spacing:.5px;line-height:1;}
+.hub-tx .s{font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.3;}
+.hub-card .chev{color:var(--dim2);font-size:22px;flex-shrink:0;}
+
+/* section header */
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.backbtn{width:38px;height:38px;border-radius:11px;background:var(--surface);border:1px solid var(--line);color:var(--text);font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;}
+.sec-title{font-family:var(--display);font-size:28px;letter-spacing:.8px;line-height:1;}
+
+/* tool buttons */
+.tool{display:flex;align-items:center;gap:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:17px 16px;margin-bottom:11px;cursor:pointer;transition:transform .1s,background .15s;}
+.tool:active{transform:scale(.985);background:var(--surface2);}
+.tool .ti2{font-family:var(--display);font-size:21px;letter-spacing:.4px;line-height:1;}
+.tool .ds{font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.35;}
+.tool .chev{color:var(--dim2);font-size:22px;}
+
+/* padel chips */
+.grp-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;margin:18px 2px 11px;}
+.grp-label.good{color:var(--green);} .grp-label.bad{color:var(--red);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px;padding:10px 13px;font-size:13px;cursor:pointer;transition:.15s;line-height:1.2;font-family:var(--body);}
+.chip.on.good{border-color:var(--green);background:rgba(54,211,156,.13);}
+.chip.on.bad{border-color:var(--red);background:rgba(255,59,70,.13);}
+
+/* padel plan output */
+.plan-h{font-family:var(--display);font-size:21px;letter-spacing:.4px;margin:22px 0 12px;}
+.plan-h.atk{color:var(--green);} .plan-h.def{color:var(--red);}
+.adv{display:flex;gap:12px;margin-bottom:12px;}
+.adv .b{width:6px;border-radius:4px;flex-shrink:0;background:var(--dim2);}
+.adv.atk .b{background:var(--green);} .adv.def .b{background:var(--red);}
+.adv .c{font-size:14px;line-height:1.45;}
+.adv .c b{font-weight:600;}
+
+/* tactics guide cards */
+.tipcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:10px;}
+.tipcard h4{font-family:var(--display);font-size:19px;letter-spacing:.4px;color:var(--padel);margin-bottom:6px;font-weight:400;}
+.tipcard p{font-size:13.5px;line-height:1.5;color:var(--text);}
+
+/* pesas tracker */
+.note-box{font-size:12.5px;color:var(--dim);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:14px;line-height:1.45;}
+.exrow{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 15px;margin-bottom:10px;}
+.exrow .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:3px;}
+.exrow .nm{font-size:15px;font-weight:600;}
+.exrow .gl{font-size:12px;color:var(--pesas);white-space:nowrap;font-weight:600;}
+.exrow .tp{font-size:12px;color:var(--dim);line-height:1.4;margin-bottom:11px;}
+.sets{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.setdot{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface2);color:var(--dim2);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;font-family:var(--display);}
+.setdot.done{background:var(--pesas);border-color:var(--pesas);color:#0b0b0f;}
+.kgin{width:74px;background:var(--surface2);border:1.5px solid var(--line);border-radius:9px;padding:7px 9px;color:var(--text);font-size:14px;font-family:var(--body);outline:none;margin-left:auto;}
+.kgin:focus{border-color:var(--pesas);}
+.restmini{font-size:12px;color:var(--dim);border:1px solid var(--line);background:none;border-radius:9px;padding:8px 11px;cursor:pointer;font-family:var(--body);min-width:96px;}
+
+/* generic big timer (boxeo/running) */
+.bigtimer{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;}
+.bt-phase{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;}
+.bt-num{font-family:var(--display);font-size:min(30vw,128px);line-height:1;letter-spacing:1px;font-variant-numeric:tabular-nums;}
+.bt-sub{font-size:14px;color:var(--dim);}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px 15px;margin-bottom:10px;}
+.cfg-row .lab{font-size:14.5px;}
+.stepper{display:flex;align-items:center;gap:12px;}
+.stepper button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.stepper .val{font-family:var(--display);font-size:22px;min-width:58px;text-align:center;}
+.lap{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);padding:8px 4px;border-bottom:1px solid var(--line);}
+.lap span:last-child{font-variant-numeric:tabular-nums;color:var(--text);}
 .flash{animation:flashbg .5s ease;}
 @keyframes flashbg{0%{background-color:rgba(255,90,44,.18);}100%{background-color:transparent;}}
 </style>
@@ -188,7 +262,7 @@ body{
 <div class="screen on" id="s-login">
   <div class="login-wrap">
     <svg class="flame" style="width:50px;height:50px;margin-bottom:14px;" viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>
-    <h1 style="font-family:var(--display);font-size:33px;letter-spacing:1.5px;line-height:1;">KETTLEBELL <span style="color:var(--ember)">BURN</span></h1>
+    <h1 style="font-family:var(--display);font-size:32px;letter-spacing:1.4px;line-height:1.05;">CENTRO <span style="color:var(--ember)">DEPORTIVO</span></h1>
     <div id="login-checking" style="display:none;"></div>
     <div id="login-form" style="display:block;width:100%;margin-top:20px;">
       <p style="color:var(--dim);font-size:13.5px;margin-bottom:20px;">Introduce tus datos para acceder</p>
@@ -199,9 +273,66 @@ body{
       </div>
       <div id="login-error"></div>
       <button id="login-btn" class="go" style="margin-top:14px;" onclick="AuthGate.login()">ENTRAR</button>
-      <p style="color:var(--dim2);font-size:11.5px;margin-top:20px;line-height:1.5;">¿No tienes acceso? Pídeselo al administrador.</p>
+      <p style="color:var(--dim2);font-size:11.5px;margin-top:20px;line-height:1.5;">¿No tienes acceso? Pídeselo a Miguel.</p>
     </div>
   </div>
+</div>
+
+<!-- HUB / MENÚ -->
+<div class="screen" id="s-hub">
+  <div class="hub-head">
+    <svg class="flame" viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>
+    <h1>MIS DEPORTES</h1>
+    <button class="logout" onclick="AuthGate.logout()">Salir</button>
+  </div>
+  <p class="tag">Elige tu actividad</p>
+  <div id="hub-cards"></div>
+</div>
+
+<!-- PÁDEL -->
+<div class="screen" id="s-padel">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-hub')">‹</button><span class="sec-title">Pádel</span></div>
+  <div class="tool" onclick="Nav.go('s-padel-tac')">
+    <div class="hub-ic" style="background:rgba(58,155,255,.14);color:var(--padel)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg></div>
+    <div class="hub-tx"><div class="ti2">Asistente táctico</div><div class="ds">Marca cómo es tu rival y te doy el plan. Rápido para el descanso del partido.</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="tool" onclick="Nav.go('s-padel-guide')">
+    <div class="hub-ic" style="background:rgba(58,155,255,.14);color:var(--padel)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM18 17H6"/></svg></div>
+    <div class="hub-tx"><div class="ti2">Táctica y consejos</div><div class="ds">Fundamentos para decidir mejor y mejorar tu juego.</div></div>
+    <span class="chev">›</span>
+  </div>
+</div>
+
+<!-- PÁDEL · asistente táctico -->
+<div class="screen" id="s-padel-tac">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-padel')">‹</button><span class="sec-title">Asistente táctico</span></div>
+  <p class="tag" style="margin-bottom:4px;">Marca lo que veas en tu rival y pulsa el botón.</p>
+  <div class="grp-label good">Puntos débiles del rival · atácalos</div>
+  <div class="chips" id="chips-weak"></div>
+  <div class="grp-label bad">Puntos fuertes del rival · ojo con esto</div>
+  <div class="chips" id="chips-strong"></div>
+  <button class="go" style="margin-top:22px;" onclick="Padel.plan()">DAME EL PLAN ▸</button>
+  <div id="padel-plan"></div>
+</div>
+
+<!-- PÁDEL · táctica y consejos -->
+<div class="screen" id="s-padel-guide">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-padel')">‹</button><span class="sec-title">Táctica y consejos</span></div>
+  <div id="padel-guide"></div>
+</div>
+
+<!-- PESAS -->
+<div class="screen" id="s-pesas">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-hub')">‹</button><span class="sec-title">Pesas</span></div>
+  <p class="tag" style="margin-bottom:16px;">Barra Z y mancuernas · elige rutina</p>
+  <div id="pesas-list"></div>
+</div>
+
+<!-- PESAS · entreno -->
+<div class="screen" id="s-pesas-work">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-pesas')">‹</button><span class="sec-title" id="pesas-title">Rutina</span></div>
+  <div id="pesas-tracker"></div>
 </div>
 
 <!-- SETUP -->
@@ -209,7 +340,7 @@ body{
   <div class="brand">
     <svg class="flame" viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>
     <h1>KETTLEBELL <span>BURN</span></h1>
-    <button class="logout" onclick="AuthGate.logout()">Salir</button>
+    <button class="logout" onclick="Nav.go('s-hub')">‹ Menú</button>
   </div>
   <p class="tag">Circuito quemagrasa guiado · elige tu nivel</p>
 
@@ -608,10 +739,7 @@ const App = {
   quit(){ clearInterval(this.timer); this.releaseWake(); this.home(); },
   home(){ this.paused=false; this.show('setup'); },
 
-  show(name){
-    ['setup','work','done'].forEach(s=>document.getElementById('s-'+s).classList.toggle('on',s===name));
-    document.getElementById('s-'+name).scrollTop=0;
-  },
+  show(name){ showScreen('s-'+name); },
 
   fmt(s){ s=Math.max(0,Math.round(s)); const m=Math.floor(s/60),x=s%60; return m+':'+(x<10?'0':'')+x; },
 
@@ -664,13 +792,9 @@ function togglePass(){
   btn.setAttribute('aria-label', reveal ? 'Ocultar contraseña' : 'Ver contraseña');
 }
 
-function showApp(){
-  $('s-login').classList.remove('on');
-  App.home();
-}
+function showApp(){ showScreen('s-hub'); }
 function showLoginForm(){
-  ['setup','work','done'].forEach(s => { const el=$('s-'+s); if(el) el.classList.remove('on'); });
-  $('s-login').classList.add('on');
+  showScreen('s-login');
   $('login-pass').value='';
   $('login-pass').type='password';
   $('toggle-pass').innerHTML = EYE;
@@ -694,6 +818,198 @@ window.AuthGate = {
 
 $('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') AuthGate.login(); });
 $('login-user').addEventListener('keydown', e => { if(e.key==='Enter') $('login-pass').focus(); });
+</script>
+<!-- ===================== MENÚ + PÁDEL + PESAS ===================== -->
+<script>
+/* ---------- helpers ---------- */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
+  const el = document.getElementById(id);
+  if(el){ el.classList.add('on'); el.scrollTop = 0; }
+}
+let _ac;
+function tone(freq=880, dur=.15, type='sine'){
+  try{
+    _ac = _ac || new (window.AudioContext||window.webkitAudioContext)();
+    const o=_ac.createOscillator(), g=_ac.createGain();
+    o.type=type; o.frequency.value=freq; o.connect(g); g.connect(_ac.destination);
+    const t=_ac.currentTime;
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.35,t+.015);
+    g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.start(t); o.stop(t+dur+.02);
+  }catch(e){}
+}
+function buzz(p){ if(navigator.vibrate){ try{ navigator.vibrate(p); }catch(e){} } }
+
+/* ---------- icons ---------- */
+const ICON = {
+  padel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="8.5" rx="6.5" ry="7.5"/><line x1="9" y1="6" x2="15" y2="11"/><line x1="15" y1="6" x2="9" y2="11"/><path d="M12 16v6M9.5 22h5"/></svg>',
+  dumbbell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M3.5 9v5M17.5 6.5v11M20.5 9v5M6.5 12h11"/></svg>',
+  flame:'<svg viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>',
+  run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></svg>',
+  glove:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a2.5 2.5 0 0 1 5 0M12 8a2.5 2.5 0 0 1 5 0v4a5 5 0 0 1-5 5H9a4 4 0 0 1-4-4 2 2 0 0 1 4 0"/><path d="M5 18a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2"/></svg>'
+};
+
+/* ---------- HUB ---------- */
+const HUB = [
+  {id:'s-padel',  name:'Pádel',          sub:'Asistente táctico y consejos',        color:'var(--padel)', bg:'rgba(58,155,255,.14)',  icon:ICON.padel},
+  {id:'s-pesas',  name:'Pesas',          sub:'Barra Z y mancuernas · rutinas + registro', color:'var(--pesas)', bg:'rgba(159,176,196,.16)', icon:ICON.dumbbell},
+  {id:'KETTLE',   name:'Kettlebell Burn',sub:'Circuito quemagrasa guiado',          color:'var(--ember)', bg:'rgba(255,90,44,.14)',   icon:ICON.flame},
+  {id:'SOON',     name:'Running',        sub:'Cronómetro de carrera',               color:'var(--green)', bg:'rgba(54,211,156,.12)',  icon:ICON.run},
+  {id:'SOON',     name:'Saco de boxeo',  sub:'Temporizador de asaltos',             color:'var(--box)',   bg:'rgba(255,90,77,.12)',   icon:ICON.glove}
+];
+function renderHub(){
+  $('hub-cards').innerHTML = HUB.map(h => {
+    const soon = h.id === 'SOON';
+    const click = soon ? '' : (h.id === 'KETTLE' ? 'onclick="openKettlebell()"' : `onclick="Nav.go('${h.id}')"`);
+    const right = soon
+      ? '<span style="font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim2);border:1px solid var(--line);border-radius:20px;padding:3px 8px;">Pronto</span>'
+      : '<span class="chev">›</span>';
+    return `<div class="hub-card" ${click} style="${soon?'opacity:.5;':''}">
+      <div class="hub-ic" style="background:${h.bg};color:${h.color}">${h.icon}</div>
+      <div class="hub-tx"><div class="t">${h.name}</div><div class="s">${h.sub}</div></div>
+      ${right}
+    </div>`;
+  }).join('');
+}
+function openKettlebell(){ App.home(); }
+
+const Nav = { go(id){ if(id==='s-pesas') Pesas.renderList(); showScreen(id); } };
+
+/* ---------- PÁDEL · asistente táctico ---------- */
+const PADEL_WEAK = [
+  {id:'reves',      label:'Revés flojo',              adv:'Insiste a su <b>revés</b>: saca abierto a ese lado y dirige ahí las bolas. Globos a su revés para que remate incómodo.'},
+  {id:'pared',      label:'Mala salida de pared',     adv:'Tira bolas <b>profundas y potentes al fondo</b> para que tenga que sacarlas de la pared. Ahí fallará o te dejará bola fácil.'},
+  {id:'globo',      label:'Se mueve mal hacia atrás', adv:'Usa el <b>globo constantemente</b> para echarlo de la red y robarle la posición. Es tu mejor arma contra él.'},
+  {id:'impaciente', label:'Impaciente / se precipita',adv:'<b>Alarga los puntos</b> y juega seguro: él arriesgará y fallará. Bolas altas, lentas y chiquitas para desesperarlo.'},
+  {id:'volea',      label:'Mala volea',               adv:'Juégale <b>a los pies (chiquitas)</b> cuando esté en la red para que falle la volea o la levante y puedas atacar.'},
+  {id:'fisico',     label:'Se cansa pronto',          adv:'<b>Hazle correr</b>: cambia de lado, alarga el partido y juega al desgaste. En los puntos largos será tuyo.'},
+  {id:'nervios',    label:'Nervioso en puntos clave', adv:'<b>Aprieta en los puntos importantes</b> (iguales, bola de break). Juega sólido y déjale fallar bajo presión.'},
+  {id:'remate',     label:'Remate flojo',             adv:'No temas darle <b>bolas altas</b>: su remate no hace daño. Sube a defenderlo y contraataca.'}
+];
+const PADEL_STRONG = [
+  {id:'saque',  label:'Saca fuerte',             adv:'Resta <b>seguro y un paso atrás</b>: bloquea sin arriesgar y mete el resto profundo o globo. No intentes ganar el punto al resto.'},
+  {id:'red',    label:'Domina la red',           adv:'<b>No le des bolas a media altura.</b> Sácalo de la red con globos profundos; no pelotees de tú a tú contra él arriba.'},
+  {id:'smash',  label:'Buen remate (víbora)',    adv:'<b>Evita los globos cortos.</b> Si globeas, que sean muy profundos y pegados a la pared. No le dejes rematar cómodo.'},
+  {id:'rapido', label:'Rápido / gran defensa',   adv:'No busques winners imposibles. <b>Trabájalo con paciencia</b>, cambios de dirección y bolas al cuerpo y al hueco.'},
+  {id:'zurdo',  label:'Es zurdo',                adv:'Ojo: tiene <b>revés y derecha cambiados</b>. Cubre el centro con su derecha; busca su revés (lado contrario al habitual) y las paredes exteriores.'},
+  {id:'potente',label:'Pega muy fuerte',         adv:'<b>No entres en su guerra de potencia.</b> Resta, bloquea y usa su propia fuerza; rompe su ritmo con bolas lentas y globos.'}
+];
+const PADEL_BASE = [
+  'Sube a la red en cuanto puedas y <b>no la cedas</b>: el equipo de arriba gana la mayoría de los puntos.',
+  'Insiste sobre el <b>jugador más débil</b> de la pareja.',
+  'Ataca el <b>centro</b> de la pista para generar dudas de quién la toma y reducir ángulos.'
+];
+const Padel = {
+  weak:new Set(), strong:new Set(),
+  renderChips(){
+    $('chips-weak').innerHTML   = PADEL_WEAK.map(w   => `<button class="chip good" onclick="Padel.toggle('weak','${w.id}',this)">${w.label}</button>`).join('');
+    $('chips-strong').innerHTML = PADEL_STRONG.map(w => `<button class="chip bad"  onclick="Padel.toggle('strong','${w.id}',this)">${w.label}</button>`).join('');
+  },
+  toggle(grp,id,el){ const s=this[grp]; s.has(id)?s.delete(id):s.add(id); el.classList.toggle('on'); },
+  plan(){
+    const atk = PADEL_WEAK.filter(w => this.weak.has(w.id));
+    const def = PADEL_STRONG.filter(w => this.strong.has(w.id));
+    let h = '<div class="plan-h" style="margin-top:26px;">Tu plan de partido</div>';
+    if(atk.length){
+      h += '<div class="plan-h atk">▸ Ataca esto</div>';
+      atk.forEach(a => h += `<div class="adv atk"><div class="b"></div><div class="c">${a.adv}</div></div>`);
+    }
+    if(def.length){
+      h += '<div class="plan-h def">▸ Ojo con esto</div>';
+      def.forEach(a => h += `<div class="adv def"><div class="b"></div><div class="c">${a.adv}</div></div>`);
+    }
+    h += '<div class="plan-h" style="color:var(--padel)">▸ No olvides</div>';
+    PADEL_BASE.forEach(b => h += `<div class="adv"><div class="b" style="background:var(--padel)"></div><div class="c">${b}</div></div>`);
+    const box = $('padel-plan'); box.innerHTML = h;
+    box.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+};
+
+/* ---------- PÁDEL · guía de táctica ---------- */
+const PADEL_GUIDE = [
+  {h:'La red manda',              p:'El equipo que está en la red gana la mayoría de los puntos. Tu objetivo siempre es subir y no dejar que te bajen.'},
+  {h:'El globo es tu mejor amigo',p:'Cuando te tienen en la red o estás en apuros, el globo profundo (mejor al revés del rival) te devuelve la posición y los manda al fondo.'},
+  {h:'Juega al más débil',        p:'Identifica al jugador flojo de la pareja e insiste sobre él hasta que falle o deje una bola fácil.'},
+  {h:'Ataca el centro',           p:'La bola al medio genera dudas sobre quién la toma, reduce los ángulos de respuesta y rompe la coordinación de la pareja.'},
+  {h:'Paciencia sobre potencia',  p:'En pádel se gana más por errores del rival que por golpes ganadores. Mete la bola, construye el punto y espera tu oportunidad.'},
+  {h:'La chiquita',               p:'Bola baja y lenta a los pies del rival que está en la red: le obligas a levantarla y te deja una bola atacable.'},
+  {h:'Bandeja antes que remate',  p:'No remates a saco siempre. La bandeja te permite colocar, mantener la red y no perder la posición.'},
+  {h:'Saca para subir',           p:'El saque no es para matar: colócalo (al revés o abierto) y sube a la red detrás de él.'},
+  {h:'Comunícate con tu pareja',  p:'"Tuya / mía", y moveos como un bloque: si uno sube a la red, el otro también.'},
+  {h:'Usa las paredes en defensa',p:'No tengas prisa: deja que la bola bote y salga de la pared para devolverla con más tiempo y mejor ángulo.'}
+];
+function renderPadelGuide(){
+  $('padel-guide').innerHTML = PADEL_GUIDE.map(t => `<div class="tipcard"><h4>${t.h}</h4><p>${t.p}</p></div>`).join('');
+}
+
+/* ---------- PESAS ---------- */
+const PESAS_ROUTINES = [
+  {id:'brazo', name:'Brazo y hombro', gear:'Barra Z + mancuernas', ex:[
+    {n:'Curl con barra Z',          sets:4, reps:'10',      tip:'Codos pegados al cuerpo, sube sin balanceo.'},
+    {n:'Curl martillo (mancuernas)',sets:3, reps:'12',      tip:'Agarre neutro, controla la bajada.'},
+    {n:'Press francés (barra Z)',   sets:4, reps:'10',      tip:'Codos fijos apuntando al techo, mueve solo el antebrazo.'},
+    {n:'Extensión tríceps mancuerna',sets:3,reps:'12',      tip:'Brazo pegado a la oreja, baja por detrás de la nuca.'},
+    {n:'Elevaciones laterales',     sets:3, reps:'15',      tip:'Sube hasta la altura del hombro, sin impulso.'}
+  ]},
+  {id:'torso', name:'Torso', gear:'Mancuernas', ex:[
+    {n:'Press banca con mancuernas',sets:4, reps:'10',      tip:'Baja controlando, no arquees la espalda.'},
+    {n:'Remo a una mano',           sets:4, reps:'10/lado', tip:'Codo pegado al cuerpo, aprieta la espalda arriba.'},
+    {n:'Aperturas (flyes)',         sets:3, reps:'12',      tip:'Codos algo flexionados, abre en arco amplio.'},
+    {n:'Press militar mancuernas',  sets:4, reps:'10',      tip:'Core firme, no bloquees los codos de golpe.'},
+    {n:'Encogimientos (shrugs)',    sets:3, reps:'15',      tip:'Sube los hombros recto, pausa arriba.'}
+  ]},
+  {id:'pierna', name:'Pierna y full body', gear:'Mancuernas', ex:[
+    {n:'Sentadilla goblet',         sets:4, reps:'12',      tip:'Pecho alto, baja entre los talones.'},
+    {n:'Zancadas con mancuernas',   sets:3, reps:'10/pierna',tip:'La rodilla no pasa la punta del pie.'},
+    {n:'Peso muerto rumano',        sets:4, reps:'12',      tip:'Bisagra de cadera, espalda recta, pesas pegadas a las piernas.'},
+    {n:'Elevación de gemelos',      sets:3, reps:'20',      tip:'Rango completo, pausa de un segundo arriba.'}
+  ]}
+];
+const Pesas = {
+  renderList(){
+    $('pesas-list').innerHTML = PESAS_ROUTINES.map(r => `
+      <div class="hub-card" onclick="Pesas.open('${r.id}')">
+        <div class="hub-ic" style="background:rgba(159,176,196,.16);color:var(--pesas)">${ICON.dumbbell}</div>
+        <div class="hub-tx"><div class="t">${r.name}</div><div class="s">${r.gear} · ${r.ex.length} ejercicios</div></div>
+        <span class="chev">›</span>
+      </div>`).join('');
+  },
+  open(id){
+    const r = PESAS_ROUTINES.find(x => x.id === id); if(!r) return;
+    $('pesas-title').textContent = r.name;
+    let html = '<div class="note-box">Marca cada serie que completes y apunta el peso. El registro es solo de esta sesión; cuando guardemos historial será con Firebase.</div>';
+    html += r.ex.map(e => {
+      const dots = Array.from({length:e.sets}, (_,i) => `<div class="setdot" onclick="toggleSet(this)">${i+1}</div>`).join('');
+      return `<div class="exrow">
+        <div class="top"><span class="nm">${e.n}</span><span class="gl">${e.sets}×${e.reps}</span></div>
+        <div class="tp">${e.tip}</div>
+        <div class="sets">${dots}<input class="kgin" type="number" inputmode="decimal" placeholder="kg"></div>
+        <div style="margin-top:11px;"><button class="restmini" onclick="pesasRest(this)">Descanso 90s</button></div>
+      </div>`;
+    }).join('');
+    $('pesas-tracker').innerHTML = html;
+    showScreen('s-pesas-work');
+  }
+};
+function toggleSet(el){ el.classList.toggle('done'); }
+function pesasRest(btn){
+  if(btn.dataset.iv){ clearInterval(+btn.dataset.iv); btn.dataset.iv=''; btn.textContent='Descanso 90s'; return; }
+  let r = 90; btn.textContent = r + 's';
+  const iv = setInterval(() => {
+    r--;
+    if(r <= 0){ clearInterval(iv); btn.dataset.iv=''; tone(900,.3); buzz([80,40,80]); btn.textContent='Descanso 90s'; return; }
+    if(r <= 3) tone(740,.08);
+    btn.textContent = r + 's';
+  }, 1000);
+  btn.dataset.iv = iv;
+}
+
+/* ---------- init ---------- */
+renderHub();
+Padel.renderChips();
+renderPadelGuide();
+Pesas.renderList();
 </script>
 </body>
 </html>
