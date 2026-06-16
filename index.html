@@ -874,6 +874,7 @@ function tone(freq=880, dur=.15, type='sine'){
   }catch(e){}
 }
 function buzz(p){ if(navigator.vibrate){ try{ navigator.vibrate(p); }catch(e){} } }
+function fmtT(s){ s=Math.max(0,Math.round(s)); const m=Math.floor(s/60),x=s%60; return m+':'+(x<10?'0':'')+x; }
 
 /* ---------- icons ---------- */
 const ICON = {
