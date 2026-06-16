@@ -335,6 +335,39 @@ body{
   <div id="pesas-tracker"></div>
 </div>
 
+<!-- BOXEO -->
+<div class="screen" id="s-boxeo">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-hub')">‹</button><span class="sec-title">Saco de boxeo</span></div>
+  <p class="tag" style="margin-bottom:14px;">Entrenamientos quemagrasa y de cardio al saco</p>
+  <div class="tool" onclick="Nav.go('s-boxeo-guide')">
+    <div class="hub-ic" style="background:rgba(255,90,77,.14);color:var(--box)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a2.5 2.5 0 0 1 5 0M12 8a2.5 2.5 0 0 1 5 0v4a5 5 0 0 1-5 5H9a4 4 0 0 1-4-4 2 2 0 0 1 4 0"/><path d="M5 18a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2"/></svg></div>
+    <div class="hub-tx"><div class="ti2">Combos y técnica</div><div class="ds">Aprende los golpes, la guardia y las claves para quemar grasa.</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="grp-label" style="color:var(--box)">Entrenamientos guiados</div>
+  <div id="boxeo-workouts"></div>
+  <div class="grp-label" style="color:var(--dim2)">Temporizador libre</div>
+  <div id="boxeo-free"></div>
+  <button class="go" style="margin-top:14px;" onclick="Boxeo.startFree()">EMPEZAR LIBRE ▸</button>
+</div>
+
+<!-- BOXEO · sesión -->
+<div class="screen" id="s-boxeo-run">
+  <div class="sec-head"><button class="backbtn" onclick="Boxeo.stop();Nav.go('s-boxeo')">‹</button><span class="sec-title">Entreno</span></div>
+  <div class="bigtimer">
+    <div class="bt-phase" id="bx-phase">Asalto 1</div>
+    <div class="bt-num" id="bx-num">2:00</div>
+    <div class="tip" id="bx-txt" style="max-width:330px;margin-top:16px;"></div>
+  </div>
+  <div class="wfoot" id="bx-foot"></div>
+</div>
+
+<!-- BOXEO · técnica -->
+<div class="screen" id="s-boxeo-guide">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-boxeo')">‹</button><span class="sec-title">Combos y técnica</span></div>
+  <div id="boxeo-guide"></div>
+</div>
+
 <!-- SETUP -->
 <div class="screen" id="s-setup">
   <div class="brand">
@@ -823,6 +856,7 @@ $('login-user').addEventListener('keydown', e => { if(e.key==='Enter') $('login-
 <script>
 /* ---------- helpers ---------- */
 function showScreen(id){
+  try{ Boxeo.stop(); }catch(e){}
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
   const el = document.getElementById(id);
   if(el){ el.classList.add('on'); el.scrollTop = 0; }
@@ -856,7 +890,7 @@ const HUB = [
   {id:'s-pesas',  name:'Pesas',          sub:'Barra Z y mancuernas · rutinas + registro', color:'var(--pesas)', bg:'rgba(159,176,196,.16)', icon:ICON.dumbbell},
   {id:'KETTLE',   name:'Kettlebell Burn',sub:'Circuito quemagrasa guiado',          color:'var(--ember)', bg:'rgba(255,90,44,.14)',   icon:ICON.flame},
   {id:'SOON',     name:'Running',        sub:'Cronómetro de carrera',               color:'var(--green)', bg:'rgba(54,211,156,.12)',  icon:ICON.run},
-  {id:'SOON',     name:'Saco de boxeo',  sub:'Temporizador de asaltos',             color:'var(--box)',   bg:'rgba(255,90,77,.12)',   icon:ICON.glove}
+  {id:'s-boxeo',  name:'Saco de boxeo',  sub:'Entrenos quemagrasa y cardio',        color:'var(--box)',   bg:'rgba(255,90,77,.14)',   icon:ICON.glove}
 ];
 function renderHub(){
   $('hub-cards').innerHTML = HUB.map(h => {
@@ -1005,11 +1039,143 @@ function pesasRest(btn){
   btn.dataset.iv = iv;
 }
 
+/* ---------- BOXEO ---------- */
+function ensureAudio(){ try{ _ac = _ac || new (window.AudioContext||window.webkitAudioContext)(); if(_ac.state==='suspended') _ac.resume(); }catch(e){} }
+
+const BOXEO_WORKOUTS = [
+  {id:'quema', name:'Quemagrasa principiante', meta:'6 asaltos · 2 min · 60s descanso', rest:60, rounds:[
+    {t:'Calentamiento', d:120, txt:'Pies en movimiento todo el rato. Jabs sueltos (1) y algún 1-2 suave para entrar en calor. Sin forzar.'},
+    {t:'Jab–Directo',   d:120, txt:'<b>1-2</b> continuo a ritmo constante. Vuelve siempre a la guardia. No dejes de mover los pies.'},
+    {t:'Sumando gancho',d:120, txt:'<b>1-2-3</b>. Gira la cadera en el gancho. Guardia alta entre combo y combo.'},
+    {t:'Cardio burst',  d:120, txt:'Combo libre y, cada ~30s, mete 10 rodillas altas o 5 burpees. Sube las pulsaciones.'},
+    {t:'Velocidad',     d:120, txt:'15s de golpes rápidos y ligeros a tope, 15s moviendo pies suave. Repite. Velocidad, no fuerza.'},
+    {t:'Vaciado',       d:120, txt:'Todo lo que te quede: combinaciones libres sin parar. Termina fuerte.'}
+  ]},
+  {id:'cardio', name:'Cardio intervalos', meta:'8 asaltos · 90s · 30s descanso', rest:30, rounds:[
+    {t:'Calentamiento', d:90, txt:'Movimiento de pies + jabs. Activa hombros y cadera.'},
+    {t:'1-2 intenso',   d:90, txt:'<b>1-2</b> fuerte y constante. Cada 20s, ráfaga de 10 golpes rápidos.'},
+    {t:'Combo + cardio',d:90, txt:'<b>1-2-3</b> durante 30s, luego 30s de rodillas altas o saltos. Repite.'},
+    {t:'Sprint de golpes',d:90,txt:'Ráfagas de 15s a máxima velocidad / 15s suave. Sin bajar la guardia.'},
+    {t:'Uppercuts',     d:90, txt:'<b>1-2-5-2</b>. Flexiona las piernas en los uppercuts: tren inferior + cardio.'},
+    {t:'Movimiento',    d:90, txt:'Golpea moviéndote alrededor del saco, entra y sal. No te quedes plantado.'},
+    {t:'HIIT',          d:90, txt:'20s a tope / 10s suave, x3. Máxima intensidad en los 20s.'},
+    {t:'Vaciado',       d:90, txt:'Combinaciones libres sin parar hasta el final.'}
+  ]},
+  {id:'hiit', name:'HIIT al saco (intenso)', meta:'10 asaltos · 60s · 20s descanso', rest:20, rounds:[
+    {t:'Calentamiento', d:60, txt:'Pies y jabs rápidos para activar.'},
+    {t:'1-2 máquina',   d:60, txt:'<b>1-2</b> sin parar, ritmo alto y sostenido.'},
+    {t:'Sprint',        d:60, txt:'20s a tope / 10s suave, x2. Máxima velocidad de manos.'},
+    {t:'Combo 1-2-3',   d:60, txt:'<b>1-2-3</b> sin parar, guardia siempre alta.'},
+    {t:'Cardio',        d:60, txt:'Rodillas altas + saltos de tijera alternando. Pulsaciones al máximo.'},
+    {t:'Uppercuts',     d:60, txt:'<b>1-2-5-2</b>, flexionando piernas en cada uppercut.'},
+    {t:'Sprint',        d:60, txt:'15s a tope / 15s suave, x2.'},
+    {t:'Movimiento',    d:60, txt:'Golpea girando alrededor del saco, entra y sal.'},
+    {t:'Cardio',        d:60, txt:'Burpees alternados con golpeo. Lo que más te queme.'},
+    {t:'Vaciado',       d:60, txt:'Todo lo que quede, sin parar. Vacíate.'}
+  ]}
+];
+
+const Boxeo = {
+  list:[], idx:0, remain:0, iv:null, paused:false, title:'',
+  free:{rounds:6, work:120, rest:45},
+  startWorkout(id){ const w=BOXEO_WORKOUTS.find(x=>x.id===id); if(!w) return; this.title=w.name; this.build(w.rounds,w.rest); this.begin(); },
+  startFree(){
+    const c=this.free, rounds=[];
+    for(let i=1;i<=c.rounds;i++) rounds.push({t:'Asalto', d:c.work, txt:'Combinaciones libres. ¡Sin parar y moviendo los pies!'});
+    this.title='Temporizador libre'; this.build(rounds,c.rest); this.begin();
+  },
+  build(rounds,rest){
+    const ph=[];
+    rounds.forEach((r,i)=>{ ph.push({type:'work', r, n:i+1, total:rounds.length}); if(i<rounds.length-1) ph.push({type:'rest', d:rest, next:rounds[i+1]}); });
+    ph.push({type:'done'}); this.list=ph; this.idx=0;
+  },
+  begin(){ ensureAudio(); this.paused=false; showScreen('s-boxeo-run'); this.enter(); },
+  enter(){
+    clearInterval(this.iv);
+    const p=this.list[this.idx];
+    if(!p || p.type==='done') return this.finish();
+    this.remain = p.type==='work' ? p.r.d : p.d;
+    if(p.type==='work'){
+      $('bx-phase').textContent=(p.r.t||'Asalto')+' · '+p.n+'/'+p.total;
+      $('bx-phase').style.color='var(--box)';
+      $('bx-txt').innerHTML=p.r.txt||'';
+      tone(960,.25,'square');
+    } else {
+      $('bx-phase').textContent='Descanso';
+      $('bx-phase').style.color='var(--green)';
+      $('bx-txt').innerHTML = p.next ? ('Siguiente: <b>'+(p.next.t||'Asalto')+'</b>') : 'Recupera y respira.';
+      tone(520,.25);
+    }
+    buzz(80);
+    $('bx-num').textContent=fmtT(this.remain);
+    $('bx-foot').innerHTML='<button class="ctrl" id="bx-pause" onclick="Boxeo.pauseToggle()">❚❚ Pausa</button><button class="ctrl primary" onclick="Boxeo.skip()">SALTAR ▸</button>';
+    this.tick();
+  },
+  tick(){
+    clearInterval(this.iv);
+    this.iv=setInterval(()=>{
+      if(this.paused) return;
+      this.remain--;
+      $('bx-num').textContent=fmtT(Math.max(0,this.remain));
+      if(this.remain<=3 && this.remain>0){ tone(740,.08); buzz(30); }
+      if(this.remain<=0){ clearInterval(this.iv); this.idx++; this.enter(); }
+    },1000);
+  },
+  pauseToggle(){ this.paused=!this.paused; const b=$('bx-pause'); if(b) b.textContent=this.paused?'▶ Seguir':'❚❚ Pausa'; },
+  skip(){ tone(520,.1); clearInterval(this.iv); this.idx++; this.enter(); },
+  finish(){
+    clearInterval(this.iv);
+    $('bx-phase').textContent='COMPLETADO'; $('bx-phase').style.color='var(--box)';
+    $('bx-num').textContent='✓';
+    $('bx-txt').innerHTML='¡Buen entreno! '+this.title+' terminado.';
+    $('bx-foot').innerHTML='<button class="ctrl wide" onclick="Nav.go(\'s-boxeo\')">Volver</button>';
+    tone(880,.2); setTimeout(()=>tone(1175,.35),180); buzz([120,60,120,60,200]);
+  },
+  stop(){ if(this.iv){ clearInterval(this.iv); this.iv=null; } },
+  step(key,d){
+    const c=this.free;
+    if(key==='rounds') c.rounds=Math.min(20,Math.max(1,c.rounds+d));
+    if(key==='work')   c.work=Math.min(600,Math.max(30,c.work+d*15));
+    if(key==='rest')   c.rest=Math.min(180,Math.max(10,c.rest+d*5));
+    this.renderFree();
+  },
+  renderFree(){
+    const c=this.free;
+    const row=(label,key,val)=>`<div class="cfg-row"><span class="lab">${label}</span><div class="stepper"><button onclick="Boxeo.step('${key}',-1)">−</button><span class="val">${key==='rounds'?val:fmtT(val)}</span><button onclick="Boxeo.step('${key}',1)">+</button></div></div>`;
+    $('boxeo-free').innerHTML = row('Asaltos','rounds',c.rounds)+row('Duración asalto','work',c.work)+row('Descanso','rest',c.rest);
+  }
+};
+function renderBoxeoHome(){
+  $('boxeo-workouts').innerHTML = BOXEO_WORKOUTS.map(w=>`
+    <div class="hub-card" onclick="Boxeo.startWorkout('${w.id}')">
+      <div class="hub-ic" style="background:rgba(255,90,77,.14);color:var(--box)">${ICON.glove}</div>
+      <div class="hub-tx"><div class="t">${w.name}</div><div class="s">${w.meta}</div></div>
+      <span class="chev">›</span>
+    </div>`).join('');
+  Boxeo.renderFree();
+}
+
+const BOXEO_TECH = [
+  {h:'La numeración de los golpes', p:'Cada golpe tiene un número: <b>1</b> jab (directo adelantado), <b>2</b> directo de atrás, <b>3</b> gancho adelantado, <b>4</b> gancho de atrás, <b>5</b> uppercut adelantado, <b>6</b> uppercut de atrás. Los combos se nombran con números: "1-2", "1-2-3"…'},
+  {h:'Guardia y postura', p:'Pies a la anchura de los hombros, manos arriba protegiendo la barbilla, codos pegados al cuerpo, rodillas algo flexionadas. Vuelve SIEMPRE a la guardia después de cada golpe.'},
+  {h:'Combos básicos', p:'Empieza por estos: <b>1-2</b> (jab-directo), <b>1-1-2</b> (doble jab + directo), <b>1-2-3</b> (+ gancho), <b>1-2-5-2</b> (+ uppercut). Lánzalos limpios antes de ir rápido.'},
+  {h:'Mueve los pies', p:'Para cardio y para no ser un blanco fácil: no te quedes plantado. Entra, sal y pivota alrededor del saco. El trabajo de piernas es buena parte del gasto calórico.'},
+  {h:'Respira y dosifica', p:'Exhala corto en cada golpe ("sh-sh"). Mantén un ritmo que aguantes todo el asalto; no te vacíes en los primeros 20 segundos.'},
+  {h:'Clave quemagrasa', p:'El secreto no es pegar más fuerte, sino <b>no parar</b>: volumen alto y constante mezclando golpes con movimiento, y descansos cortos para mantener las pulsaciones altas.'},
+  {h:'Intervalos (HIIT)', p:'Alterna ráfagas de máxima intensidad (15-20s a tope) con golpeo suave. Ese sube-y-baja de pulsaciones es lo que más grasa quema.'},
+  {h:'Cuida manos y muñecas', p:'Si pegas fuerte al saco, usa vendas y guantes y golpea con los nudillos delanteros y la muñeca recta. Mejor técnica suave que fuerte y lesionarte.'}
+];
+function renderBoxeoGuide(){
+  $('boxeo-guide').innerHTML = BOXEO_TECH.map(t=>`<div class="tipcard"><h4 style="color:var(--box)">${t.h}</h4><p>${t.p}</p></div>`).join('');
+}
+
 /* ---------- init ---------- */
 renderHub();
 Padel.renderChips();
 renderPadelGuide();
 Pesas.renderList();
+renderBoxeoHome();
+renderBoxeoGuide();
 </script>
 </body>
 </html>
