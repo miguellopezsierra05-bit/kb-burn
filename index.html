@@ -368,6 +368,37 @@ body{
   <div id="boxeo-guide"></div>
 </div>
 
+<!-- CAMBIO FÍSICO -->
+<div class="screen" id="s-cambio">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-hub')">‹</button><span class="sec-title">Cambio físico</span></div>
+  <p class="tag" style="margin-bottom:14px;">Tu plan para la recomposición corporal</p>
+  <div class="tool" onclick="Nav.go('s-ejercicio')">
+    <div class="hub-ic" style="background:rgba(255,177,61,.14);color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M3.5 9v5M17.5 6.5v11M20.5 9v5M6.5 12h11"/></svg></div>
+    <div class="hub-tx"><div class="ti2">Plan de ejercicio</div><div class="ds">Qué entrenar cada día, de lunes a domingo.</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="tool" onclick="Nav.go('s-dieta')">
+    <div class="hub-ic" style="background:rgba(255,177,61,.14);color:var(--amber)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v7a2 2 0 0 0 4 0V3M7 11v10M16 3c-1.5 0-2.5 1.6-2.5 5s1 4 2.5 4m0-9v18"/></svg></div>
+    <div class="hub-tx"><div class="ti2">Dieta</div><div class="ds">Cómo enfocarla bien para tu objetivo.</div></div>
+    <span class="chev">›</span>
+  </div>
+</div>
+
+<!-- CAMBIO · ejercicio -->
+<div class="screen" id="s-ejercicio">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-cambio')">‹</button><span class="sec-title">Plan de ejercicio</span></div>
+  <p class="tag" style="margin-bottom:16px;">Semana para recomposición · fuerza + cardio + descanso</p>
+  <div id="ejercicio-list"></div>
+  <div class="note-box" style="margin-top:6px;line-height:1.55;">La recomposición se consigue con <b>fuerza, constancia y descanso</b> a lo largo de meses. Respeta los días de descanso: ahí es donde el músculo se construye.</div>
+</div>
+
+<!-- CAMBIO · dieta -->
+<div class="screen" id="s-dieta">
+  <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-cambio')">‹</button><span class="sec-title">Dieta</span></div>
+  <div class="note-box" style="line-height:1.6;">Esta app no incluye dietas, menús ni cantidades, y es a propósito. Qué te conviene comer y en qué cantidad depende de tus datos y de tu salud, y eso lo ajusta de forma segura un <b>dietista-nutricionista</b> — con una sola consulta tendrías un plan a tu medida. La app se centra en acompañarte en el entrenamiento.</div>
+  <div class="note-box" style="line-height:1.6;">Y algo importante: lo más rápido casi nunca es lo que funciona. La recomposición llega con constancia y descanso, comiendo lo suficiente para poder entrenar. Si en algún momento la comida o el peso se te hacen un agobio, hablarlo con tu médico de cabecera o un profesional es de las mejores decisiones que puedes tomar.</div>
+</div>
+
 <!-- SETUP -->
 <div class="screen" id="s-setup">
   <div class="brand">
@@ -882,11 +913,13 @@ const ICON = {
   dumbbell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M3.5 9v5M17.5 6.5v11M20.5 9v5M6.5 12h11"/></svg>',
   flame:'<svg viewBox="0 0 100 100"><path d="M50 8c-7 16-24 23-24 46a24 24 0 0048 0c0-10-5-17-9-25-3 8-7 11-11 11 4-13-4-24-4-32z" fill="url(#g1)"/></svg>',
   run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9 2h6"/></svg>',
-  glove:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a2.5 2.5 0 0 1 5 0M12 8a2.5 2.5 0 0 1 5 0v4a5 5 0 0 1-5 5H9a4 4 0 0 1-4-4 2 2 0 0 1 4 0"/><path d="M5 18a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2"/></svg>'
+  glove:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a2.5 2.5 0 0 1 5 0M12 8a2.5 2.5 0 0 1 5 0v4a5 5 0 0 1-5 5H9a4 4 0 0 1-4-4 2 2 0 0 1 4 0"/><path d="M5 18a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2"/></svg>',
+  target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>'
 };
 
 /* ---------- HUB ---------- */
 const HUB = [
+  {id:'s-cambio', name:'Cambio físico',  sub:'Tu plan de entreno semanal y pautas',  color:'var(--amber)', bg:'rgba(255,177,61,.14)',  icon:ICON.target},
   {id:'s-padel',  name:'Pádel',          sub:'Asistente táctico y consejos',        color:'var(--padel)', bg:'rgba(58,155,255,.14)',  icon:ICON.padel},
   {id:'s-pesas',  name:'Pesas',          sub:'Barra Z y mancuernas · rutinas + registro', color:'var(--pesas)', bg:'rgba(159,176,196,.16)', icon:ICON.dumbbell},
   {id:'KETTLE',   name:'Kettlebell Burn',sub:'Circuito quemagrasa guiado',          color:'var(--ember)', bg:'rgba(255,90,44,.14)',   icon:ICON.flame},
@@ -1170,6 +1203,25 @@ function renderBoxeoGuide(){
   $('boxeo-guide').innerHTML = BOXEO_TECH.map(t=>`<div class="tipcard"><h4 style="color:var(--box)">${t.h}</h4><p>${t.p}</p></div>`).join('');
 }
 
+/* ---------- CAMBIO FÍSICO · ejercicio ---------- */
+const SEMANA = [
+  {d:'Lunes',     focus:'Fuerza · Torso',            color:'var(--pesas)', desc:'Pecho, espalda y hombros con mancuernas. La fuerza es la base de la recomposición.', go:'s-pesas'},
+  {d:'Martes',    focus:'Cardio · Boxeo',            color:'var(--box)',   desc:'Entreno de saco para mantener las pulsaciones altas sin castigar las articulaciones.', go:'s-boxeo'},
+  {d:'Miércoles', focus:'Fuerza · Pierna y full body',color:'var(--pesas)',desc:'Las piernas mueven mucho músculo: el día que más aporta a recomponer.', go:'s-pesas'},
+  {d:'Jueves',    focus:'Descanso activo · Pádel',   color:'var(--padel)', desc:'Juega al pádel o sal a caminar. Mover el cuerpo sin machacarlo.', go:'s-padel'},
+  {d:'Viernes',   focus:'Fuerza · Brazo y hombro',   color:'var(--pesas)', desc:'Barra Z y mancuernas para cerrar la semana de fuerza.', go:'s-pesas'},
+  {d:'Sábado',    focus:'Circuito · Kettlebell',     color:'var(--ember)', desc:'Circuito quemagrasa de cuerpo completo: fuerza y cardio en uno.', go:'KETTLE'},
+  {d:'Domingo',   focus:'Descanso total',            color:'var(--dim)',   desc:'Descansa de verdad. Dormir bien y recuperar es parte del entreno, no lo contrario.', go:null}
+];
+function renderEjercicio(){
+  $('ejercicio-list').innerHTML = SEMANA.map(s=>`
+    <div class="exrow" style="border-left:3px solid ${s.color};">
+      <div class="top"><span class="nm">${s.d}</span><span class="gl" style="color:${s.color}">${s.focus}</span></div>
+      <div class="tp">${s.desc}</div>
+      ${s.go?`<button class="restmini" style="min-width:auto;" onclick="${s.go==='KETTLE'?'openKettlebell()':("Nav.go('"+s.go+"')")}">Ir a la actividad ›</button>`:''}
+    </div>`).join('');
+}
+
 /* ---------- init ---------- */
 renderHub();
 Padel.renderChips();
@@ -1177,6 +1229,7 @@ renderPadelGuide();
 Pesas.renderList();
 renderBoxeoHome();
 renderBoxeoGuide();
+renderEjercicio();
 </script>
 </body>
 </html>
