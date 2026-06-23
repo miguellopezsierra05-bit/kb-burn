@@ -300,6 +300,17 @@ body{
 .lc-check{width:24px;height:24px;border-radius:7px;border:1.5px solid var(--line);background:var(--surface2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:.18s;}
 .lc-item.got .lc-check{background:var(--green);border-color:var(--green);color:#04130d;}
 .lc-note-item{font-size:12.5px;color:var(--amber);font-weight:600;margin-top:2px;}
+/* ---------- RUTINA EJERCICIO ---------- */
+.ej-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);}
+.ej-item:last-child{border-bottom:none;padding-bottom:0;}
+.ej-item:first-child{padding-top:0;}
+.ej-ename{font-size:14px;flex:1;min-width:0;padding-right:10px;line-height:1.3;}
+.ej-sets{font-size:12px;font-weight:700;color:var(--ember);white-space:nowrap;background:rgba(255,90,44,.12);padding:4px 9px;border-radius:8px;flex-shrink:0;}
+.ej-link{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:13px;padding:13px;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px;color:var(--text);margin-bottom:2px;}
+.ej-link:active{opacity:.75;}
+.result-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 4px;}
+.result-item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:13px;line-height:1.4;color:var(--dim);}
+.ej-error{display:flex;gap:10px;background:rgba(255,59,70,.07);border:1px solid rgba(255,59,70,.2);border-radius:12px;padding:12px 14px;margin-bottom:8px;font-size:13.5px;align-items:center;}
 </style>
 </head>
 <body>
@@ -449,9 +460,16 @@ body{
 <!-- CAMBIO · ejercicio -->
 <div class="screen" id="s-ejercicio">
   <div class="sec-head"><button class="backbtn" onclick="Nav.go('s-cambio')">‹</button><span class="sec-title">Plan de ejercicio</span></div>
-  <p class="tag" style="margin-bottom:16px;">Semana para recomposición · fuerza + cardio + descanso</p>
-  <div id="ejercicio-list"></div>
-  <div class="note-box" style="margin-top:6px;line-height:1.55;">La recomposición se consigue con <b>fuerza, constancia y descanso</b> a lo largo de meses. Respeta los días de descanso: ahí es donde el músculo se construye.</div>
+  <p class="tag" style="margin-bottom:14px;">Fuerza · Pádel · Boxeo · Recomposición</p>
+  <div class="macro-strip" style="grid-template-columns:repeat(2,1fr);">
+    <div class="macro-pill"><div class="mv" style="color:var(--pesas)">4</div><div class="ml">días fuerza</div></div>
+    <div class="macro-pill"><div class="mv" style="color:var(--padel)">2–3</div><div class="ml">pádel/activ</div></div>
+    <div class="macro-pill"><div class="mv" style="color:var(--green)">1</div><div class="ml">recuperación</div></div>
+    <div class="macro-pill"><div class="mv" style="color:var(--amber);font-size:16px;">△</div><div class="ml">hombro+espalda</div></div>
+  </div>
+  <div class="day-pills" id="rutina-pills"></div>
+  <div id="rutina-content"></div>
+  <div id="rutina-extra"></div>
 </div>
 
 <!-- CAMBIO · dieta -->
@@ -1296,23 +1314,160 @@ function renderBoxeoGuide(){
 }
 
 /* ---------- CAMBIO FÍSICO · ejercicio ---------- */
-const SEMANA = [
-  {d:'Lunes',     focus:'Fuerza · Torso',            color:'var(--pesas)', desc:'Pecho, espalda y hombros con mancuernas. La fuerza es la base de la recomposición.', go:'s-pesas'},
-  {d:'Martes',    focus:'Cardio · Boxeo',            color:'var(--box)',   desc:'Entreno de saco para mantener las pulsaciones altas sin castigar las articulaciones.', go:'s-boxeo'},
-  {d:'Miércoles', focus:'Fuerza · Pierna y full body',color:'var(--pesas)',desc:'Las piernas mueven mucho músculo: el día que más aporta a recomponer.', go:'s-pesas'},
-  {d:'Jueves',    focus:'Descanso activo · Pádel',   color:'var(--padel)', desc:'Juega al pádel o sal a caminar. Mover el cuerpo sin machacarlo.', go:'s-padel'},
-  {d:'Viernes',   focus:'Fuerza · Brazo y hombro',   color:'var(--pesas)', desc:'Barra Z y mancuernas para cerrar la semana de fuerza.', go:'s-pesas'},
-  {d:'Sábado',    focus:'Circuito · Kettlebell',     color:'var(--ember)', desc:'Circuito quemagrasa de cuerpo completo: fuerza y cardio en uno.', go:'KETTLE'},
-  {d:'Domingo',   focus:'Descanso total',            color:'var(--dim)',   desc:'Descansa de verdad. Dormir bien y recuperar es parte del entreno, no lo contrario.', go:null}
+const RUTINA = [
+  { id:'lun', label:'Lunes', color:'var(--pesas)',
+    focus:'PUSH · Pecho + Hombro + Tríceps', objetivo:'🔥 Pecho y hombro marcado',
+    bloques:[
+      { t:'Fuerza', ic:'💪', items:[
+        { e:'Press mancuernas o kettlebell', s:'4×8–12' },
+        { e:'Press militar (barra Z o mancuernas)', s:'4×8–10' },
+        { e:'Elevaciones laterales', s:'4×12–15' },
+        { e:'Fondos entre sillas o banco', s:'3× fallo' },
+        { e:'Flexiones', s:'3× máximo' }
+      ]},
+      { t:'Cardio', ic:'🏃', items:[
+        { e:'Cinta continua', s:'15–20 min · 8–9 km/h' }
+      ]}
+    ],
+    links:['s-pesas']
+  },
+  { id:'mar', label:'Martes', color:'var(--pesas)',
+    focus:'ESPALDA + Kettlebell Finisher', objetivo:'🔥 Espalda en V + quema grasa',
+    bloques:[
+      { t:'Espalda + Bíceps', ic:'💪', items:[
+        { e:'Remo barra Z', s:'4×8–12' },
+        { e:'Remo mancuerna unilateral', s:'4×10' },
+        { e:'Jalón con goma', s:'4×12–15' },
+        { e:'Face pull con goma', s:'3×15–20' },
+        { e:'Curl barra Z', s:'3×10–12' }
+      ]},
+      { t:'Finisher kettlebell · 5 rondas', ic:'🔥', items:[
+        { e:'Kettlebell swings', s:'20 reps' },
+        { e:'Goblet squats', s:'10 reps' },
+        { e:'Push press', s:'10 reps' },
+        { e:'Descanso', s:'30 s' }
+      ]}
+    ],
+    links:['s-pesas']
+  },
+  { id:'mie', label:'Miércoles', color:'var(--padel)',
+    focus:'PÁDEL + Core ligero', objetivo:'🎾 Día de rendimiento',
+    bloques:[
+      { t:'Actividad principal', ic:'🎾', items:[
+        { e:'Pádel o clase', s:'' }
+      ]},
+      { t:'Core (10–15 min)', ic:'🔥', items:[
+        { e:'Elevaciones de piernas', s:'3×12' },
+        { e:'Crunch', s:'3×15' },
+        { e:'Plancha lateral', s:'3×30 s' }
+      ]}
+    ],
+    links:['s-padel']
+  },
+  { id:'jue', label:'Jueves', color:'var(--pesas)',
+    focus:'LEGS + HIIT', objetivo:'🔥 Día metabólico · quema grasa fuerte',
+    bloques:[
+      { t:'Fuerza pierna', ic:'🦵', items:[
+        { e:'Sentadilla con kettlebell', s:'4×10' },
+        { e:'Peso muerto rumano (barra Z o mancuernas)', s:'4×8–10' },
+        { e:'Zancadas', s:'3×10 por pierna' },
+        { e:'Hip thrust', s:'3×12' }
+      ]},
+      { t:'HIIT cinta', ic:'🏃', items:[
+        { e:'1 min correr / 1,5 min caminar', s:'8–10 rondas' }
+      ]}
+    ],
+    links:['s-pesas']
+  },
+  { id:'vie', label:'Viernes', color:'var(--pesas)',
+    focus:'FULL UPPER · Físico atlético', objetivo:'🔥 Día clave para físico tipo atleta',
+    bloques:[
+      { t:'Fuerza completa', ic:'💪', items:[
+        { e:'Press mancuernas', s:'3×10' },
+        { e:'Remo', s:'3×10' },
+        { e:'Elevaciones laterales', s:'5×12 (bombeo hombro)' },
+        { e:'Curl bíceps', s:'3×12' },
+        { e:'Tríceps extensión goma', s:'3×12' },
+        { e:'Flexiones', s:'2× fallo' }
+      ]}
+    ],
+    links:['s-pesas']
+  },
+  { id:'sab', label:'Sábado', color:'var(--box)',
+    focus:'PÁDEL + BOXEO', objetivo:'🎾🥊 Día atlético',
+    bloques:[
+      { t:'Pádel', ic:'🎾', items:[
+        { e:'Pádel o partido', s:'' }
+      ]},
+      { t:'Boxeo + movilidad', ic:'🥊', items:[
+        { e:'Saco de boxeo', s:'6–10 rounds · 2–3 min' },
+        { e:'Movilidad + estiramientos', s:'10 min' }
+      ]}
+    ],
+    links:['s-padel','s-boxeo']
+  },
+  { id:'dom', label:'Domingo', color:'var(--dim)',
+    focus:'DESCANSO · Recuperación activa', objetivo:'🟫 Recupera para volver fuerte',
+    bloques:[
+      { t:'Recuperación', ic:'🚶', items:[
+        { e:'Caminata', s:'8.000–12.000 pasos' },
+        { e:'Movilidad ligera', s:'opcional' }
+      ]}
+    ],
+    links:[]
+  }
 ];
-function renderEjercicio(){
-  $('ejercicio-list').innerHTML = SEMANA.map(s=>`
-    <div class="exrow" style="border-left:3px solid ${s.color};">
-      <div class="top"><span class="nm">${s.d}</span><span class="gl" style="color:${s.color}">${s.focus}</span></div>
-      <div class="tp">${s.desc}</div>
-      ${s.go?`<button class="restmini" style="min-width:auto;" onclick="${s.go==='KETTLE'?'openKettlebell()':("Nav.go('"+s.go+"')")}">Ir a la actividad ›</button>`:''}
-    </div>`).join('');
-}
+const LINK_LABELS = {'s-pesas':'💪 Ir a Pesas','s-padel':'🎾 Ir a Pádel','s-boxeo':'🥊 Ir a Boxeo'};
+const Rutina = {
+  day:0,
+  select(i){ this.day=i; this.render(); },
+  render(){
+    const dias=RUTINA;
+    document.getElementById('rutina-pills').innerHTML=dias.map((d,i)=>`
+      <button class="dpill ${i===this.day?'on':''}" style="${i===this.day?'background:'+d.color+';border-color:'+d.color+';':''}" onclick="Rutina.select(${i})">${d.label}</button>
+    `).join('');
+    const d=dias[this.day];
+    let html=`<div class="day-badge" style="color:${d.color};border-color:${d.color};background:rgba(0,0,0,.25)">${d.objetivo}</div><br>`;
+    html+=d.bloques.map(b=>`
+      <div class="meal-block">
+        <div class="meal-head">${b.ic} ${b.t}</div>
+        <div class="meal-card">${b.items.map(it=>`
+          <div class="ej-item">
+            <span class="ej-ename">${it.e}</span>
+            ${it.s?`<span class="ej-sets">${it.s}</span>`:''}
+          </div>`).join('')}
+        </div>
+      </div>`).join('');
+    if(d.links.length) html+=d.links.map(l=>`<div class="ej-link" onclick="Nav.go('${l}')">${LINK_LABELS[l]||l} ›</div>`).join('');
+    document.getElementById('rutina-content').innerHTML=html;
+  },
+  renderExtra(){
+    document.getElementById('rutina-extra').innerHTML=`
+      <div style="margin-top:22px;">
+        <div class="sec-label" style="margin-bottom:12px;">🔥 Lo más importante</div>
+        <div class="rule-card"><div class="rule-ic">🏋️</div><div class="rule-tx"><div class="rh">Hombro 2–3 veces/semana</div><div class="rb">Lo que más define el look atlético. No te lo saltes.</div></div></div>
+        <div class="rule-card"><div class="rule-ic">🔙</div><div class="rule-tx"><div class="rh">Espalda 2–3 veces/semana</div><div class="rb">La espalda en V cambia completamente tu silueta.</div></div></div>
+        <div class="rule-card"><div class="rule-ic">🥗</div><div class="rule-tx"><div class="rh">Déficit calórico constante</div><div class="rb">Sin déficit no hay recomposición. La dieta es el 70%.</div></div></div>
+      </div>
+      <div style="margin-top:18px;">
+        <div class="sec-label" style="margin-bottom:12px;">📊 Resultado esperado en 8–12 semanas</div>
+        <div class="result-strip">
+          <div class="result-item">Cintura más pequeña</div>
+          <div class="result-item">Hombros más anchos</div>
+          <div class="result-item">Espalda en V visible</div>
+          <div class="result-item">Pecho más firme</div>
+          <div class="result-item" style="grid-column:1/-1">Físico tipo "atleta de pádel" 🎾</div>
+        </div>
+      </div>
+      <div style="margin-top:18px;margin-bottom:12px;">
+        <div class="sec-label" style="margin-bottom:12px;">⚠️ Errores que debes evitar</div>
+        <div class="ej-error"><span>❌</span><span>Solo pádel, sin fuerza → no hay cambio estético</span></div>
+        <div class="ej-error"><span>❌</span><span>Entrenar siempre igual sin variar estímulo</span></div>
+        <div class="ej-error"><span>❌</span><span>No progresar en cargas ni repeticiones</span></div>
+      </div>`;
+  }
+};
+function renderEjercicio(){ Rutina.render(); Rutina.renderExtra(); }
 
 /* ---------- LISTA COMPRA ---------- */
 const LISTA_COMPRA = [
