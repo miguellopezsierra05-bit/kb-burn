@@ -169,10 +169,9 @@ body{
 .macro-pill .mv{font-family:var(--display);font-size:22px;letter-spacing:.4px;line-height:1;}
 .macro-pill .mv small{font-size:13px;}
 .macro-pill .ml{font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase;margin-top:3px;}
-.day-pills{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;margin-bottom:16px;scrollbar-width:none;}
-.day-pills::-webkit-scrollbar{display:none;}
-.dpill{flex-shrink:0;padding:9px 16px;border-radius:11px;border:1.5px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;color:var(--dim);font-family:var(--body);}
-.dpill.on{color:#0b0b0f;}
+.day-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.dpill{flex:1 1 calc(25% - 6px);min-width:70px;padding:11px 6px;border-radius:11px;border:1.5px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;color:var(--text);font-family:var(--body);opacity:.55;text-align:center;}
+.dpill.on{color:#fff;opacity:1;}
 .day-badge{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:20px;margin-bottom:14px;border:1px solid;background:rgba(0,0,0,.18);}
 .meal-block{margin-bottom:11px;}
 .meal-head{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:var(--dim2);margin:0 2px 7px;}
